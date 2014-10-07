@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset=utf-8>
+<title>给字符串加千分符</title>
+</head>  
+<style>  
+   
+</style>  
+    
+<body>
+    <script>
+         var str = '12345432';//->[]
+         function spli(str){
+            var iNum = str.length%3;//->0,1,2
+            var prev = '';
+            var arr = [];
+            var iNow = 0;
+            var tmp = '';
+            //千分号是从后向前三位三位加的，所以把三位余出来的从前面提取到
+            if(iNum !=0){
+                prev = str.substring(0,iNum);
+                arr.push(prev);
+            }
+            //取到多余部分后面的
+            str = str.substring(iNum);
+            for(var i=0;i<str.length;i++){
+                iNow++;
+                tmp += str[i];
+                if(iNow==3 && tmp){
+                    //数组里面放的是三位的数
+                    arr.push(tmp);
+                    tmp = '';
+                    iNow = 0;
+                }
+            }
+            return arr.join(',');
+         }
+         console.log(spli(str));
+         /*(?=) :前向声明
+         (?!) :反前向声明
+         var str = 'a(?=)bacad';
+         var re =  //g;
+         str = str.replace(re,'*');
+         alert(str);
+         */
+         /*var str = '112345432';
+         function spli(str){
+             var re = /(?=(?!\b)(\d{3})+$)/g;
+             return str.replace(re,',');
+         }
+         console.log(spli(str));
+*/
+
+    </script>
+</body>  
+</html>

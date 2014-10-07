@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset=utf-8>
+<title>最长自然排序</title>
+</head>  
+<style>  
+   
+</style>  
+    
+<body>
+     
+    <script>    
+        var list = [1,2,1,2,3,4,1,2,3];//---->得到[1,2,3,4]
+        list.sort();
+        var obj = {};
+        for(var i=0;i<list.length;i++){
+            if(!obj[list[i]]){
+                  obj[list[i]] = [];
+                }
+                //把这个字母push进它对应的数组中
+                obj[list[i]].push(list[i]);
+        }
+        for(attr in obj){
+             
+                //obj[attr]数组中的每个字符都是相同的
+                value = obj[attr][0];
+                sort(value);
+                console.log(value);
+            }
+        console.log(list);
+    </script>
+</body>  
+</html>

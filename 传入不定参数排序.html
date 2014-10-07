@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset=utf-8>
+<title>demo</title>
+</head> 
+
+<style>  
+
+</style>  
+    
+<body>
+
+    <script>
+      function mySort(){
+        var args = new Array();
+        var len = arguments.length;
+        for(var i=0;i<len;i++){
+          args.push(arguments[i]);
+        }
+        function compare(num1,num2){
+          return num1-num2;
+        }
+        args.sort(compare);
+        return args;
+      }
+      var result = mySort(50,11,15,32,46,78,100,22,9,0);
+      console.log(result);
+
+    </script>
+</body>  
+</html>

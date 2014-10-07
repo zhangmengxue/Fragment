@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset=utf-8>
+    <title>demo</title>
+</head>
+<body>
+      
+  
+ <script>
+   var list = {
+    href:'//www.taobao.com/',
+    text:'淘宝网'
+   };
+   var str = '<a href="{href}">{text}</a>';
+   console.log(str.replace(/\{([\s\S]+?)}/g,function(i,id){return list[id];}));
+
+    
+ </script>   
+</body>
+</html>

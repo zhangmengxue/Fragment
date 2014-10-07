@@ -1,0 +1,41 @@
+
+*{ margin: 0; padding: 0;}
+.tab {
+    width: 500px;
+    margin: 40px auto;
+}
+.item {
+    background: #000;
+    height: 40px;
+    border: 2px solid #000;
+    border-radius: 5px 5px 0 0;
+}
+.item ul {
+    list-style: none;
+}
+.item li {
+    width: 120px;
+    height: 40px;
+    line-height: 40px;
+    float: left;
+    color: white;
+    text-align: center;
+}
+.item li:hover {
+    color: #fff;
+    background: #999;
+}
+.content {
+    width: 496px;
+    border: 2px solid #000;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 5px 5px 8px #666;
+}
+.content .summary {
+    display: none;
+    clear: both;
+}
+.content ul {
+    list-style: disc;
+    margin-left: 40px;
+}

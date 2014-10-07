@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset=utf-8>
+<title>字符串中出现最多的字符和个数</title>
+</head>  
+<style>  
+   
+</style>  
+    
+<body>
+    <script>
+       /* var str = 'aaaaaakkkkkkaaaaasddd';
+        function most(str){
+            //不同的字符在obj中都有个数组
+            obj  = {
+              a:[],
+              d:[]
+            }
+            var obj = {};
+            var num = 0;
+            var value = '';
+            for(var i=0;i<str.length;i++){
+                //如果obj{}中这个字符对应的数组还没存在的话，那么给他创建个空数组
+                if(!obj[str[i]]){
+                  obj[str[i]] = [];
+                }
+                //把这个字母push进它对应的数组中
+                obj[str[i]].push(str[i]);
+            }
+            for(attr in obj){
+              if(num<obj[attr].length){
+                num = obj[attr].length;
+                //obj[attr]数组中的每个字符都是相同的
+                value = obj[attr][0];
+              }
+            }
+            return '出现次数最多的字符是'+value+'出现了'+num+'次';
+        }*/
+
+        var str = 'kkkkkkkaaakkkkkkaaaaasddd';
+        function most(str){
+             //排序，正则匹配子项
+             var arr = str.split('');
+             arr.sort();
+             str = arr.join('');
+            // \1匹配前面相同的,也就是说跟（\w）相同的
+             var re = /(\w)\1+/g;
+             var num = 0;
+             var value = '';
+             //这里的$0就是找到的重复的整体
+             str.replace(re,function($0,$1){
+                 //alert($0);
+                 if(num<$0.length){
+                  num = $0.length;
+                  value = $1;
+                 }
+             });
+             return '出现次数最多的字符是'+value+'出现了'+num+'次';
+        }
+
+        console.log(most(str));
+    </script>
+</body>  
+</html>

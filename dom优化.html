@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset=utf-8>
+<title>dom优化相关</title>
+</head>  
+<style>  
+   
+</style>  
+    
+<body>
+    <div id="div1"></div>
+    <ul id="oul"></ul>
+    <script>
+        //一、dom与js
+        //1.js与dom交互问题
+        /*window.onload =  function(){
+            var nDiv = document.getElementById('div1');
+            var str = '';
+
+            console.time("innerHTML10000个a所用的时间");
+            //每次循环dom都与js交互，太浪费时间啦
+            for(var i=0;i<10000;i++){
+                nDiv.innerHTML += 'a';
+            }
+            console.timeEnd("innerHTML10000个a所用的时间");
+
+            console.time("获得10000个a之后innerHTML所用的时间");
+            //这种就减少了js与dom的交互，大量的循环只在js中实现
+            for(var i=0;i<10000;i++){
+                str += 'a';
+            }
+            nDiv.innerHTML = str;
+            console.timeEnd("获得10000个a之后innerHTML所用的时间");
+
+        }*/
+        /*if(window.attachEvent){
+            window.attachEvent('onload',function(){
+                alert('ie1');               
+            });
+            window.attachEvent('onload',function(){
+                alert('ie2');               
+            });
+        }else{
+            window.addEventListener('load',function(){
+                alert('1');
+            });
+            window.addEventListener('load',function(){
+                alert('2');
+            });
+        }*/
+        //2.innerHTML与dom方法之间的效率比较
+
+        /*window.onload =  function(){
+            var UL = document.getElementById('oul');
+            var str='';
+            
+            //在chrome（webkit内核）中dom操作更快，在ff（Gecko）下innerHTML更快
+            console.time('dom操作所用时间');
+            for(var i=0;i<10000;i++){
+                var LI = document.createElement('li');
+                UL.appendChild(LI);
+            }
+            console.timeEnd('dom操作所用时间');
+
+            console.time('innerHTML操作所用时间');
+            for(var i=0;i<10000;i++){
+                str += '<li></li>';
+            }
+            UL.innerHTML = str;
+            console.timeEnd('innerHTML操作所用时间');        
+        }*/
+
+       // 3.如何去减少dom操作（节点克隆）
+       /*window.onload =  function(){
+            var UL = document.getElementById('oul');
+            var str='';
+            
+           
+            console.time('dom操作所用时间');
+            for(var i=0;i<10000;i++){
+                var LI = document.createElement('li');
+                LI.innerHTML = 'li';
+                UL.appendChild(LI);
+            }
+            console.timeEnd('dom操作所用时间');
+
+            
+            console.time('克隆节点所用时间');
+            var LI = document.createElement('li');
+            LI.innerHTML = 'li'; 
+            for(var i=0;i<10000;i++){
+                var newLi = LI.cloneNode(true);
+                UL.appendChild(newLi);
+            }
+            console.timeEnd('克隆节点所用时间');
+
+                   
+        }*/
+
+        // 3.如何去减少dom操作（尽量使用局部变量）
+
+        window.onload =  function(){
+            var UL = document.getElementById('oul');
+            var aLi = UL.getElementsByTagName('li');
+            
+            for(var i=0;i<10000;i++){
+                var LI = document.createElement('li');
+                UL.appendChild(LI);
+            }
+            
+            /*console.time('没使用局部变量的时间');
+            //每次都要获取aLi.length集合
+            for(var i=0;i<aLi.length;i++){
+                aLi[i].innerHTML = 'li';
+            }
+            console.timeEnd('没使用局部变量的时间');*/
+
+            console.time('使用局部变量的时间');
+            //只获取一次就够了
+            var  len = aLi.length;
+            for(var i=0;i<len;i++){
+                aLi[i].innerHTML = 'li';
+            }
+            console.timeEnd('使用局部变量的时间');
+
+            
+            //例：
+           /* var Div = document.getElementById();
+            var LI = document.getElementById();
+            var Input = document.getElementById();
+            //改成下面这样会比较好
+            var doc = document;
+            var Div = doc.getElementById();
+            var LI = doc.getElementById();
+            var Input = doc.getElementById();
+            
+            (尽量只使用获取元素节点的方法)
+            childNodes -->元素节点、文本节点
+            children--> 元素节点
+             (利用querySelectorAll)
+            var oul  = document.getElementById('uli');
+            var ali = oul.getElementById('li');
+            -->
+            var aLi = document.querySelectorAll('#uli li');*/
+
+
+         }   
+
+       
+    </script>
+</body>  
+</html>

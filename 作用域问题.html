@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset=utf-8>
+<title>返回只包含数字类型的数组</title>
+</head>  
+<style>  
+   
+</style>  
+    
+<body>
+    <script>
+        
+        
+       /* var a = 10;
+        function aaa(){//step-4
+            alert(a);//step-5->执行alert，此时只能找到外面的a=10故弹框10
+        }
+        function bbb(){//step-2
+            var a = 20;
+            aaa();//step-3
+        }
+        //定义了函数没啥用，调用才是真格的所以这里是step-
+        bbb();//step-1*/
+
+       /* function aaa(){
+            var a=b=10;
+        }
+        aaa();
+        alert(a);//undefined
+        alert(b);//b=10*/
+
+        //变量的查找是就近原则，去寻找var定义的变量，当就近没有找到的话就会查找外层
+        /*var a=10;
+        function aaa(){
+            alert(a);//undefined，查找a的时候会现在函数内查找，由于预解析的作用，此时的a是undefined,因此永远不会去查找外面的10了
+            var a = 20;
+
+            预解析
+            var a
+            alert(a);
+            var a = 20;
+
+        }
+        aaa();*/
+        /*var a=10;
+        function aaa(){
+            alert(a);//10
+            a = 20;
+        }
+        aaa();
+        var a=10;
+        function aaa(){
+            a = 20;
+            alert(a);//20
+            
+        }
+        aaa();*/
+
+       /* var a=10;
+        function aaa(){
+            bbb();
+            alert(a);//20对于这里的a是局部的，所以会找到外面的10
+            function bbb(){
+               var a=20;
+            }
+        }
+        aaa();*/
+        
+
+        //当参数跟局部变量重名时，优先级是等同的
+        /*var a=10;
+        function aaa(a){
+            
+            alert(a);//10
+            var a = 20;
+            
+        }
+        aaa(a);*/
+
+        /*var a = 5;
+        var b = a;
+        b +=3;
+        alert(a);//5
+
+        var a = [1,2,3];
+        var b=a;
+        b.push(4);
+        alert(a);//[1,2,3,4];
+
+        var a=[1,2,3];
+        var b=a;
+        b=[1,2,3,4];
+        alert(a);*/
+
+        //参数与局部变量是相似的
+        /*var a=10;
+        function aaa(a){
+            a += 3;//
+        }
+        aaa(a);
+        alert(a);//10*/
+
+        var a=[1,2,3];
+        function aaa(a){
+            a.push(4);//
+        }
+        aaa(a);
+        alert(a);//[1,2,3,4]
+
+        var a=[1,2,3];
+        function aaa(a){
+            a = [1,2,3,4];//
+        }
+        aaa(a);
+        alert(a);//[1,2,3]
+    </script>
+</body>  
+</html>

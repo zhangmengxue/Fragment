@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset=utf-8>
+<title>tip浮层</title>
+<script src="js/jquery-1.10.2.min.js" type="text/javascript"></script> 
+<script src="js/jquery.cookie.js" type="text/javascript"></script> 
+</head> 
+
+<style>  
+   .tips {
+      position: absolute;
+      width: 180px;
+      height: 50px;
+      top: 10px;
+      left:50px;
+      padding: 6px 10px 5px;
+      *padding: 7px 10px 4px;
+      line-height: 16px;
+      color: #ffffff;
+      font-size: 12px;
+      background-color: #000000;
+      opacity: 0.7;
+      filter:Alpha(opacity=70);
+      border: solid 1px #000000;
+      border-radius: 2px;
+      box-shadow: 0 0 3px #000000;
+   }
+   .tip-arrow {
+    top: -6px;
+    height: 80px;
+    position: absolute;
+    overflow: hidden;
+    font-style: normal;
+    font-family: simsun;
+    font-size: 12px;
+    text-shadow:0 0 2px #000;
+   }
+    /*为小菱形添加样式*/
+   .tip-arrow em {
+    position: absolute;
+    left: 0;
+    /*改变top或bottom就能改变小箭头的上下位置，左右同理此处省*/
+    /*top: -2px;*/
+    bottom: 4px;
+    color: #000000;
+    opacity: 0.5;
+    font-style: normal;
+   }
+   .text{
+     margin-top:22px;
+   }
+   .cancel {
+     float: right;
+     margin-right: 5px;
+     margin-top: 5px;
+     color: #FF6A6A;
+     cursor:pointer;
+   }  
+   .block {
+    display: block;
+    margin-top: 60px;
+    margin-left: 50px;
+   } 
+</style>  
+    
+<body>
+    哈哈哈哈哈哈，我是背景
+    <div class="tips">
+       <span class="tip-arrow tip-arrow-top">
+          <em>◆</em>
+             <div class="text">
+               可根据您的喜好，快速筛选商品。
+             </div>
+          <div class="cancel">我知道了</div>
+       </span>
+    </div>
+    <span class="block">漂浮在我上面</span>
+
+    
+    <script>
+       //除了chrome之外FF甚至IE都能正确运行，还没能找到原因（是我自己的chrome出问题了吗）事实证明，本地情况下chrome是写不进去cookie的但是在有域名的情况下就可以写进去..
+        $(document).ready(function(){
+
+           
+          var str = $.cookie('user');
+          if(str!='adCookie'){
+            $('.tips').show();
+          }
+          if (str=='adCookie'){
+            $('.tips').hide();
+          }         
+
+          $('.cancel').click(function(){
+            $('.tips').hide();
+            $.cookie('user','adCookie',{path:'/',expires:7});
+            console.log($.cookie('user','adCookie',{path:'/',expires:7}));
+            console.log($.cookie('user'));
+            
+          });
+
+        })
+         
+       /*  
+         $(document).ready(function(){
+
+          function writeCookie(){
+               cookie = document.cookie;
+               reg = /(^| )USERID=([^;]*)(;|\x24)/;
+               userid = reg.exec(cookie)&&reg.exec(cookie)[2];
+          }
+           
+          $('.cancel').click(function(){
+             writeCookie();
+            $('.tips').hide();
+              
+          })
+          
+
+          if(document.cookie!=''){
+             console.log('have cookie');
+             $('.tips').hide();
+          }else{
+             console.log('no cookie');
+             $('.tips').show();
+          }
+         })*/
+         
+        
+
+    </script>
+</body>  
+</html>

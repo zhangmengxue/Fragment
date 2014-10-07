@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset=utf-8>
+<title>dom优化相关</title>
+</head>  
+<style>  
+   #div1 {
+     width: 100px;
+     height: 100px;
+     background: red;
+     position: absolute;
+   }
+</style>  
+    
+<body>
+    <div id="div1"></div>
+    <ul id="oul"></ul>
+    <script>
+       
+
+         //例1.添加操作（尽量在appendChild前添加操作）
+         /*window.onload = function(){
+            var oul = document.getElementById('oul');
+          
+            console.time('dom操作时间');
+            for(var i=0;i<10000;i++){
+                var oli = document.createElement('li');
+                //注意下面两句的位置
+                oul.appendChild(oli);
+                oli.innerHTML = 'li';
+                /*oli.innerHTML = 'li';
+                oul.appendChild(oli);
+                
+              }
+            
+            console.timeEnd('dom操作时间');
+         }*/
+           //例2：合并dom操作（利用cssText）
+          window.onload = function(){
+            var oul = document.getElementById('oul');
+          
+            console.time('dom操作时间');
+            for(var i=0;i<10000;i++){
+                var oli = document.createElement('li');
+                //事实上我们总以为下面第二种方法会更好些，时间会更短，但是，分别在FF和chrome中测试的话，还是有点奇妙的。（chrome中神奇的第二种更快些）
+                oli.style.width = '100px';
+                oli.style.height = '100px';
+                oli.style.background = 'red';
+                //oli.style.cssText = 'width:100px;height:100px;background:red';
+            }
+            console.timeEnd('dom操作时间');
+        }
+
+        //例3：缓存布局信息：
+
+    /* window.onload = function(){
+            var oDiv = document.getElementById('div1');
+            var l = oDiv.offsetLeft;
+            var t = oDiv.offsetTop;
+
+            //setInterval(function(){
+            //    oDiv.style.left = oDiv.offsetLeft + 1 + 'px';
+            //    oDiv.style.top = oDiv.offsetTop + 1 + 'px';
+            //},30);
+          
+            setInterval(function(){
+                l++;
+                t++;
+                oDiv.style.left = l + 1 + 'px';
+                oDiv.style.top = t + 1 + 'px';
+            },30);
+        }*/
+         
+
+         //例4：文档碎片
+         /*window.onload = function(){
+            var oul = document.getElementById('oul');
+
+            var oFrag = document.createDocumentFragment();
+
+            console.time('dom操作时间');
+            for(var i=0;i<10000;i++){
+                var oli = document.createElement('li');
+                oFrag.appendChild(oli);
+                
+              }
+              oul.appendChild(oFrag);
+            console.timeEnd('dom操作时间');
+         }*/
+
+
+    </script>
+</body>  
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset=utf-8>
+<title>字符串转驼峰</title>
+</head>  
+<style>  
+   
+</style>  
+    
+<body>
+    <script>
+        var str = 'border-bottom-color';
+         /*这里是常规方法*/
+        function transform(str){
+          var arr = str.split('-');//[border,bottom,color]
+          for(var i=1;i<arr.length;i++){
+             arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].substring(1); //[border,Bottom,Collor]
+          }
+          return arr.join('');
+        }
+        /*这里是正则方法*/
+        function transform(str){
+          //()代表正则中的第一个子项
+           var re = /-(\w)/g;
+          // $0代表正则的整体$1代表正则中的第一个子项
+           return str.replace(re,function($0,$1){
+                return $1.toUpperCase();
+           });
+        }
+        console.log(transform(str));
+    </script>
+</body>  
+</html>
