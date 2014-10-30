@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset=utf-8>
+<title>demo</title>
+</head>
+
+<style>
+ /*#demo{
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border: #000 2px solid;
+    background-color: #fff;
+   }
+ #traingle{
+   position: absolute;
+   width: 0px;
+   height: 0px;
+   top: 10px;
+   left: 102px;
+   border-top:10px solid #fff;
+   border-left:10px solid #000;
+   border-bottom:10px solid #fff;
+   border-right:10px solid #fff;
+    }
+#trainglebg{
+   position: absolute;
+   width: 0px;
+   height: 0px;
+   top: 10px;
+   left: 99px;
+   border-top:10px solid transparent;
+   border-left:10px solid #fff;
+   border-bottom:10px solid transparent;
+   border-right:10px solid transparent;
+}*/
+#demo{
+  width:100px; 
+  height:100px; 
+  border:2px solid #000;
+}
+#demo:before{
+  content:''; 
+  display:block; 
+  width:0; 
+  height:0; 
+  position:relative; 
+  top:10px; 
+  left:100px; 
+  border-left:9px solid #000; 
+  border-top:7px solid transparent; 
+  border-bottom:7px solid transparent;
+}
+#demo:after{
+  content:''; 
+  display:block; 
+  width:0; 
+  height:0; 
+  position:relative; 
+  top:-2px; 
+  left:100px; 
+  border-left:7px solid #fff; 
+  border-top:5px solid transparent; 
+  border-bottom:5px solid transparent;
+}
+
+</style>
+<body>
+   <div id='demo'></div>
+    <script>
+
+    </script>
+</body>  
+</html>

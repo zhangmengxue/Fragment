@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset=utf-8>
+<title>demo</title>
+</head>
+<script src="js/jquery-1.11.1.js" type="text/javascript"charset="utf-8"></script>
+<script src="data.js" type="text/javascript"charset="utf-8"></script>   
+<style>
+  ul {
+    margin-right: auto;
+    margin-left: auto;
+  }  
+  li {
+    display: inline-block;
+    padding-right: 25px;
+    padding-left: 15px;
+  }
+  a {
+    text-decoration: none;
+  }
+</style>  
+    
+<body>
+
+  <ul>
+    <textarea style="display:none;">
+    <li>
+        <a href="javascript:" data-id="$blockid$">
+            <p class="name">$name$</p>
+            <div>
+                <del class="old">$oldPrace$</del>
+                <strong class="juPrice">$juPrace$</strong>
+            </div>
+        </a>
+    </li>
+    </textarea>
+  </ul>
+
+    <script>
+       
+       /*扩展的模板方法,用来匹配dom结构中的$..$这样的表达式，并进行替换*/
+       String.prototype.temp = function(obj){
+        return this.replace(/\$\w+\$/gi,function(matches){
+            var returns = obj[matches.replace(/\$/g,"")];
+            return(returns+"") == "undefined"?"":returns;
+        });
+       };
+       var htmlList = '';
+       /*获得包括<li>元素在内的整个模板*/
+       var htmlTemp = $('textarea').val();
+       JSON.data.forEach(function(object){
+          htmlList += htmlTemp.temp(object);      
+       }); 
+       /*由于图片存在url因此直接在htnl中写$img$会报错，于是选择动态写进去的方式，但是要等dom加载完再插入，不然会找不到要插入的位置*/
+       $(document).ready(function(){
+           console.log(htmlList);
+           var imgPic=[];
+           var bao = [];
+           for(var i=0;i<JSON.data.length;i++){
+             imgPic[i] = '<img height="180" width="200" src="'+JSON.data[i].img+'"/></br>';
+             console.log(imgPic[i]);
+             bao[i] = '<img height="12" width="20" src="'+JSON.data[i].ju+'"/>'
+             /*要注意到这里获取到i的值得方法，要让它可以取到*/
+             var indexImg = 'li:eq("'+i+'") p';
+            $(indexImg).prepend(imgPic[i]);
+             var indexBao = 'li:eq("'+i+'") p';
+             $(indexBao).after(bao[i]);
+           }
+       });          
+       $('ul').html(htmlList);
+    </script>
+    
+</body>  
+</html>
