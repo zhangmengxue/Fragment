@@ -1,7 +1,7 @@
 Practice
 ========
 
-收集一些小玩意儿..
+收集一些小玩意儿和demo~
 
 > 1. <a href="https://rawgithub.com/zhangmengxue/Practice/master/%E6%A8%A1%E6%80%81%E6%A1%86.html">模态框demo演示</a>
 > 2. <a href="http://www.webhek.com/misc/comparison-sort/">HTML5实现的各种排序算法的动画比较</a>
