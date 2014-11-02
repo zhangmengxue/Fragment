@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>模态框demo</title>
+<style type="text/css">
+    body{
+      background: #f4807b;
+    }
+    #button{
+      width: 120px;
+      height: 40px;
+      background: transparent;
+      border: 2px #ffffff solid;
+      margin:300px auto auto auto;
+      text-align:center;
+      line-height: 40px;
+      color: #ffffff;
+      font-family: 'bebas_neueregular'; 
+      font-size: 20px; 
+      cursor: pointer;
+    }
+    #shade{
+       position: absolute;
+       height: 100%;
+       width: 100%;
+       top: 0;
+       left: 0;
+       bottom: 0;
+       background-color: #000000;
+       opacity: 0.3;
+       z-index: 9998;
+    }
+    #modal{
+       position: absolute;
+       width: 400px;
+       height: 400px;
+       background-color: #ffffff;
+       z-index: 9999;
+       left: 50%;
+       margin-left: -200px;
+       top: 180px;
+       border-radius: 8px;    
+    }
+    
+    #modal .modal_cancel,.modal_submit,.header{
+      position: absolute;
+      width: 100px;
+      height: 35px;
+      line-height: 35px;
+      text-align: center;
+      left: 90px;
+      bottom: 50px;
+      border: 2px #f4807b solid;
+      color: #f4807b ;
+      font-family: 'bebas_neueregular';
+      cursor: pointer;
+    }
+    #modal .header{
+      color: #000;
+      left: 135px;
+      bottom: 225px;
+      font-size: 45px;
+      border: none;
+    }
+    #modal .modal_cancel{
+      left: 210px;
+    }
+    .before{  
+      max-height: 0px;
+       transition:max-height 0.4s;
+      -webkit-transition:max-height 0.4s;
+      -moz-transition:max-height 0.4s;
+    }
+    .after{ 
+      max-height: 400px;
+    }
+
+    @font-face {
+    font-family: 'bebas_neueregular';
+    src: url('./fonts/BebasNeue-webfont.eot');
+    src: url('./fonts/BebasNeue-webfont.eot?#iefix') format('embedded-opentype'),
+         url('./fonts/BebasNeue-webfont.woff') format('woff'),
+         url('./fonts/BebasNeue-webfont.ttf') format('truetype'),
+         url('./fonts/BebasNeue-webfont.svg#bebas_neueregular') format('svg');
+    font-weight: 6px;
+    font-style: normal;
+}
+</style>
+<script type="text/javascript" src="./js/jquery-1.11.1.js"></script>
+</head>
+<body>
+    <div id="button">MODAL WINDOW</div>
+    <div id="shade" style="display:none"></div>
+    <div id="modal" class="before">
+       <div class="header">WINDOW</div>
+       <div class="modal_cancel">CANCEL</div>
+       <div class="modal_submit">SUBMIT</div>
+    </div>
+    <script>
+         var btn   = $('#button'),
+             shade = $('#shade'),
+             modal = $('#modal');
+         btn.on('click',function(){
+            shade.css('display','block');
+            modal.toggleClass('after');
+         });
+         $('.modal_submit,.modal_cancel').on('click',function(){
+            shade.css('display','none');
+            modal.removeClass('after');
+         })
+        
+ 
+    </script>
+</body>  
+</html>
