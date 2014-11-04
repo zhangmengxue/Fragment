@@ -60,10 +60,10 @@
              counter3 = 0;
          var timer = null;
          function timerCounter(div,counter,num){
-             addEvent(div,'mouseover',function(){
+             addEvent(div,'mouseenter',function(){
                 timer = setInterval(count,1000);             
              }); 
-             addEvent(div,'mouseout',function(){
+             addEvent(div,'mouseleave',function(){
              clearInterval(timer);
              //这里设置null是很有必要的，为了重复计数
              timer = null;
