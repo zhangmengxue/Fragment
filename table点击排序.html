@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset=utf-8>
+<title>demo</title>
+<style type="text/css">
+    
+</style>
+<script type="text/javascript" src="js/jquery-1.11.1.js"></script>
+
+</head>
+
+
+<body>
+    <table border="2px"  cellspacing="0" cellpadding="0">
+       <tr class="header">
+         <th><span class="name">姓名</span></th>
+         <th><span class="friends">朋友数</span></th>
+         <th><span class="photos">照片数</span></th>
+         <th><span class="weibo">微博条数</span></th>
+       </tr>
+       <tr class="row1">
+         <td>大额</td>
+         <td>38</td>
+         <td>45</td>
+         <td>123</td>
+       </tr>
+       <tr class="row2">
+         <td>Pan</td>
+         <td>32</td>
+         <td>86</td>
+         <td>39</td>
+       </tr>
+       <tr class="row3">
+         <td>搞笑排行</td>
+         <td>63</td>
+         <td>76</td>
+         <td>98</td>
+       </tr>
+       <tr class="row4">
+         <td>News</td>
+         <td>43</td>
+         <td>49</td>
+         <td>356</td>
+       </tr>
+       
+    </table>
+    <script>
+          var obj = {
+              1 : {
+                'pname' : '大额',
+                'friends': 38,
+                'photos': 45,
+                'weibo': 123
+              },
+              2 : {
+                'pname' : 'Pan',
+                'friends': 32,
+                'photos': 86,
+                'weibo' : 39
+              },
+              3: {
+                'pname' : '搞笑排行',
+                'friends': 63,
+                'photos': 76,
+                'weibo' : 98
+              },
+              4 : {
+                'pname' : 'News',
+                'friends': 43,
+                'photos': 49,
+                'weibo' : 356
+              }         
+          };
+          var names = [],
+              html = [],
+              friend = [],
+              photo = [],
+              weibos = [];
+          
+          for(var i=0;i<4;i++){
+              html[i+1] = '<td>'+obj[i+1].pname+'</td>'+
+                          '<td>'+obj[i+1].friends+'</td>'+
+                          '<td>'+obj[i+1].photos+'</td>'+
+                          '<td>'+obj[i+1].weibo+'</td>';
+          }
+          function compare(num1,num2){
+              return num1-num2;
+          }
+          //jq1.8以后不支持toggle()事件了，故设一个click点击计数器
+          var nameCtime = 0;
+          $('.name').click(function(){
+              names = [];        
+              for(var i=0;i<4;i++){
+                  names.push(obj[i+1].pname);                 
+              }
+             if(nameCtime++ % 2 == 0){
+              //首字母字符编码排序
+              names.sort();
+              for(var i=0;i<names.length;i++){
+                 var index = names.indexOf(obj[i+1].pname);
+                 $('tr:eq('+(index+1)+')').html(html[i+1]);
+              }
+            }else{
+              names.sort();
+              names.reverse();
+              for(var i=0;i<names.length;i++){
+                 var index = names.indexOf(obj[i+1].pname);
+                 $('tr:eq('+(index+1)+')').html(html[i+1]);
+              }
+            }  
+              
+          });
+
+        var friendCtime = 0;
+        $('.friends').click(function(){
+             friend = [];
+             for(var i=0;i<4;i++){
+              friend.push(obj[i+1].friends);
+             }
+             if(friendCtime++ % 2 ==0){
+               friend.sort(compare);
+               for(var i=0;i<friend.length;i++){
+                  var index = friend.indexOf(obj[i+1].friends);
+                  $('tr:eq('+(index+1)+')').html(html[i+1]);
+               }
+             }else{
+               friend.sort(compare);
+               friend.reverse();
+               for(var i=0;i<friend.length;i++){
+                  var index = friend.indexOf(obj[i+1].friends);
+                  $('tr:eq('+(index+1)+')').html(html[i+1]);
+               }
+             }
+             
+         });
+
+        var photoCtime = 0;
+        $('.photos').click(function(){
+             photo = [];
+             for(var i=0;i<4;i++){
+                photo.push(obj[i+1].photos);
+               }
+             if(photoCtime++ %2 ==0){
+                 photo.sort(compare);
+                 for(var i=0;i<photo.length;i++){
+                    var index = photo.indexOf(obj[i+1].photos);
+                    $('tr:eq('+(index+1)+')').html(html[i+1]);
+                 }
+             }else{
+                 photo.sort(compare);
+                 photo.reverse();
+                 for(var i=0;i<photo.length;i++){
+                    var index = photo.indexOf(obj[i+1].photos);
+                    $('tr:eq('+(index+1)+')').html(html[i+1]);
+                 }
+             }
+             
+        });
+
+        var weiboCtime = 0; 
+        $('.weibo').click(function(){
+             weibos = [];
+             for(var i=0;i<4;i++){
+                weibos.push(obj[i+1].weibo);
+               }
+             if(weiboCtime++ %2 != 0){
+                 weibos.sort(compare);
+                 for(var i=0;i<weibos.length;i++){
+                    var index = weibos.indexOf(obj[i+1].weibo);
+                    $('tr:eq('+(index+1)+')').html(html[i+1]);
+                 }
+             }else{
+               weibos.sort(compare);
+               weibos.reverse();
+               for(var i=0;i<weibos.length;i++){
+                  var index = weibos.indexOf(obj[i+1].weibo);
+                  $('tr:eq('+(index+1)+')').html(html[i+1]);
+               }
+             }
+            
+        });
+          
+    </script>
+</body>  
+</html>

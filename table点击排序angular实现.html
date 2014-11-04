@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+<meta charset=utf-8>
+<title>demo</title>
+<style type="text/css">
+    
+</style>
+<script src="js/angular.min.js"></script>
+</head>
+
+
+<body ng-controller="controller">
+    <table border="2px"  cellspacing="0" cellpadding="0">
+       <tr class="header">
+         <th><span ng-click = "predicate='pname';reverse=true">姓名</span></th>
+         <th><span ng-click = "predicate='friends';reverse=!reverse">朋友数</span></th>
+         <th><span ng-click = "predicate='photos';reverse=!reverse">照片数</span></th>
+         <th><span ng-click = "predicate='weibo';reverse=!reverse">微博条数</span></th>
+       </tr>
+       <tr ng-repeat="o in obj|orderBy:predicate:reverse">
+         <td>{{o.pname}}</td>
+         <td>{{o.friends}}</td>
+         <td>{{o.photos}}</td>
+         <td>{{o.weibo}}</td>
+       </tr> 
+    </table>
+    <script>
+          function controller($scope){
+             $scope.obj = [
+              {
+                'pname' : '大额',
+                'friends': 38,
+                'photos': 45,
+                'weibo': 123
+              },
+              {
+                'pname' : 'Pan',
+                'friends': 32,
+                'photos': 86,
+                'weibo' : 39
+              },
+              {
+                'pname' : '搞笑排行',
+                'friends': 63,
+                'photos': 76,
+                'weibo' : 98
+              },
+              {
+                'pname' : 'News',
+                'friends': 43,
+                'photos': 49,
+                'weibo' : 356
+              } 
+             ];
+          }
+ 
+    </script>
+</body>  
+</html>
