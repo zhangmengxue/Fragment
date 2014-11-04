@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset=utf-8>
+<title>timeCounter</title>
+</head>
+
+<style>
+  .mod-spm[data-spmid='123']{
+     width: 100px;
+     height: 100px;
+     margin-right: auto;
+     margin-left: auto;
+     margin-bottom: 20px;
+     background-color: #fff;
+     border: 2px #000 solid;
+  }
+  .mod-spm[data-spmid='456']{
+     width: 100px;
+     height: 100px;
+     margin-right: auto;
+     margin-left: auto;
+     margin-bottom: 20px;
+     background-color: #fff;
+     border: 2px #000 solid;
+  }
+  .mod-spm[data-spmid='789']{
+     width: 100px;
+     height: 100px;
+     margin-right: auto;
+     margin-left: auto;
+     margin-bottom: 20px;
+     background-color: #fff;
+     border: 2px #000 solid;
+  }
+</style>
+<body>
+     <div class="mod-spm" data-spmid="123">
+       <div class="child_a"></div>
+       <div class="child_b"></div>
+       <div class="child_c"></div>
+       <div class="child_d"></div>
+     </div>
+     <div class="mod-spm" data-spmid="456">
+       <div class="child_a"></div>
+       <div class="child_b"></div>
+       <div class="child_c"></div>
+       <div class="child_d"></div>
+     </div>
+     <div class="mod-spm" data-spmid="789">
+       <div class="child_a"></div>
+       <div class="child_b"></div>
+       <div class="child_c"></div>
+       <div class="child_d"></div>
+     </div>
+    <script type="text/javascript">
+         var counter = 0,
+             counter1 = 0,
+             counter2 = 0,
+             counter3 = 0;
+         var timer = null;
+         function timerCounter(div,counter,num){
+             addEvent(div,'mouseover',function(){
+                timer = setInterval(count,1000);             
+             }); 
+             addEvent(div,'mouseout',function(){
+             clearInterval(timer);
+             //这里设置null是很有必要的，为了重复计数
+             timer = null;
+             });
+            var span = document.createElement('span');
+            div.appendChild(span);
+            function count(){
+                counter++;
+                span.innerHTML = 'STAY：'+counter;
+                console.log('区块'+num+'上停留的时间为：'+counter);
+            } 
+            return counter;
+         }
+
+         //跨浏览器的事件处理函数
+         var addEvent = function( obj, type, fn ) {
+                if (obj.addEventListener)
+                    obj.addEventListener( type, fn, false );
+                else if (obj.attachEvent) {
+                    obj["e"+type+fn] = fn;
+                    obj.attachEvent( "on"+type, function() {
+                        obj["e"+type+fn]();
+                    } );
+                }
+            };
+           
+            //解决getElementsByClassName在低版本ie中不支持的问题
+            var getElementsByClassName = function(searchClass,node,tag) {
+                    if(document.getElementsByClassName){
+                        return  document.getElementsByClassName(searchClass)
+                    }else{    
+                        node = node || document;
+                        tag = tag || '*';
+                        var returnElements = []
+                        var els =  (tag === "*" && node.all)? node.all : node.getElementsByTagName(tag);
+                        var i = els.length;
+                        searchClass = searchClass.replace(/\-/g, "\\-");
+                        var pattern = new RegExp("(^|\\s)"+searchClass+"(\\s|$)");
+                        while(--i >= 0){
+                            if (pattern.test(els[i].className) ) {
+                                returnElements.push(els[i]);
+                            }
+                        }
+                        return returnElements;
+                    }
+                }
+
+          var div = getElementsByClassName('mod-spm');
+          var block1 = num(div[0]);
+          var block2 = num(div[1]);
+          var block3 = num(div[2]);
+          timerCounter(div[0],counter1,block1);
+          timerCounter(div[1],counter2,block2);
+          timerCounter(div[2],counter3,block3); 
+          //解决data-*的兼容性问题
+          function num(div){
+             if(div.dataset){
+                return div.dataset['spmid'];
+             }else{
+                return div.getAttribute('data-spmid');
+             }
+           }   
+
+    </script>
+</body>  
+</html>

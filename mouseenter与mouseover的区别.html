@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>mouseover与mouseenter的区别demo</title>
+<style type="text/css">
+  
+</style>
+</head>
+<body>
+    <span>mouseenter的效果：</span>
+    <ul id="testEnter">
+      <li>item 1</li>
+      <li>item 2</li>
+      <li>item 3</li>
+    </ul> 
+    <span>mouseover的效果：</span>
+    <ul id="testOver">
+      <li>item 1</li>
+      <li>item 2</li>
+      <li>item 3</li>
+    </ul>     
+    <script>
+        
+        var test = document.getElementById("test");
+
+        
+        testEnter.addEventListener("mouseenter", function( event ) {   
+        
+          event.target.style.color = "red";
+
+          setTimeout(function() {
+            event.target.style.color = "";
+          }, 500);
+
+        }, false);
+        
+        testOver.addEventListener("mouseover", function( event ) {   
+         
+          event.target.style.color = "orange";
+
+          setTimeout(function() {
+            event.target.style.color = "";
+          }, 500);
+
+        }, false);
+         
+    </script>
+</body>  
+</html>
