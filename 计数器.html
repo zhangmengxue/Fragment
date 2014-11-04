@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>计数器demo（From V5前辈）</title>
+<style type="text/css">
+  input {
+    width:200px;
+    padding:6px;
+    border: 2px #d2322d solid;
+  }
+  button {
+    width:70px;
+    padding:6px;
+    color: #fff;
+    background-color: #d2322d;
+    border: 1px #fff solid;
+    font-family: verdana, geneva, sans-serif; 
+  }
+  div {
+   font-family: verdana, geneva, sans-serif; 
+   color: #d2322d; 
+   font-size: 24px;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-1.11.1.js"></script>
+</head>
+<body>
+    <input type="text">
+    <button>Submit</button>
+    <div data-count="3005.9" id="count"></div>
+    <script>
+       
+    (function( $ ){
+        jQuery.fn.startCount = function(){
+            var $this = $(this);
+            var startNum = $this.html();
+            var endNum = $this.data('count').toString().split("");
+            var newDom = '';
+            $.each( endNum , function( index , value ){
+                if( [0,1,2,3,4,5,6,7,8,9].indexOf( parseInt(value) ) < 0  ){
+                    newDom +='<span>'+ value +'</span>';
+                }
+                else{
+                    newDom +='<span data-num="'+ value +'">0</span>';
+                }
+            });
+            $this.html( newDom );
+            var span = $this.find('span[data-num]');
+            span.each(function( index , value ){
+                var $this = $(this);
+                var _this = this;
+                var s = $this.data('num');
+                _this.fuc = function ( s ){
+                    _this.timer = setTimeout(function(){
+                        if( s == 9 ){
+                            s = -1;
+                        }
+                        s++;
+                        $this.html( s );
+                        var i = 350;
+                        setTimeout(function(){
+                            if( $this.data('num') == $this.html() ){
+                                clearTimeout( _this.timer );
+                            }
+                        },i*(index+1) )
+                        _this.fuc( s );
+                    },20)
+                };
+                _this.fuc(s);
+            })
+        };
+    })( jQuery );
+
+    $(function(){
+
+        $("#count").startCount();
+
+        $("button").on('click',function(){
+            var string = $("input").val();
+            $("#count").data('count', string).startCount();
+        })
+    })
+
+    </script>
+</body>  
+</html>

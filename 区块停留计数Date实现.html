@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset=utf-8>
+<title>timeCounter</title>
+</head>
+
+<style>
+  .mod-spm[data-spmid='123']{
+     width: 100px;
+     height: 100px;
+     margin-right: auto;
+     margin-left: auto;
+     margin-bottom: 20px;
+     background-color: #fff;
+     border: 2px #000 solid;
+  }
+  .mod-spm[data-spmid='456']{
+     width: 100px;
+     height: 100px;
+     margin-right: auto;
+     margin-left: auto;
+     margin-bottom: 20px;
+     background-color: #fff;
+     border: 2px #000 solid;
+  }
+  .mod-spm[data-spmid='789']{
+     width: 100px;
+     height: 100px;
+     margin-right: auto;
+     margin-left: auto;
+     margin-bottom: 20px;
+     background-color: #fff;
+     border: 2px #000 solid;
+  }
+</style>
+<body>
+	   <div class="mod-spm" data-spmid="123">
+       <div class="child_a"></div>
+       <div class="child_b"></div>
+       <div class="child_c"></div>
+       <div class="child_d"></div>
+     </div>
+     <div class="mod-spm" data-spmid="456">
+       <div class="child_a"></div>
+       <div class="child_b"></div>
+       <div class="child_c"></div>
+       <div class="child_d"></div>
+     </div>
+     <div class="mod-spm" data-spmid="789">
+       <div class="child_a"></div>
+       <div class="child_b"></div>
+       <div class="child_c"></div>
+       <div class="child_d"></div>
+     </div>
+    <script type="text/javascript">
+         var startTime = 0,
+             totalTime = 0,
+             stayTime = 0,
+             counter1 = 0,
+             counter2 = 0,
+             counter3 = 0;
+         var timer = null;
+         function timerCounter(div,startTime,totalTime,num){
+             var span = document.createElement('span');
+             div.addEventListener('mouseover',function(){
+                startTime = new Date().getTime();             
+             },false); 
+            div.addEventListener('mouseout',function(){
+                totalTime += new Date().getTime()-startTime;
+                //console.log(totalTime);
+                span.innerHTML = '鼠标离开后才会显示停留时长，stay:'+Math.floor(totalTime/1000);
+             },false);
+            div.appendChild(span);
+         }
+          var div = document.getElementsByClassName('mod-spm');
+          timerCounter(div[0],startTime,totalTime,div[0].dataset['spmid']);
+          timerCounter(div[1],startTime,totalTime,div[1].dataset['spmid']);
+          timerCounter(div[2],startTime,totalTime,div[2].dataset['spmid']);        
+    </script>
+</body>  
+</html>
