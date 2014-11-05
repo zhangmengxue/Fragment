@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>todolist原生js实现demo</title>
+<style type="text/css">
+body {
+  background-color: #2b3e53;
+  margin: 0;
+  padding: 0;
+}
+#wrapper {
+  margin: 0 auto;
+  width: 380px;
+  height: 480px;
+  line-height: 480px;
+}
+#inputArea{
+  height: 80px;
+}
+#inputArea input{
+  width: 260px;
+  height: 30px;
+  border: 5px #ef4c6c solid;
+}
+#inputArea #add{
+  background-color: #ef4c6c;
+  color:#2b3e53;
+  height: 42px;
+  width: 88px;
+  border: 4px #fff solid;
+
+}
+#listArea p{
+ color: #fff;
+ height: 30px;
+}
+#listArea span{
+ color: #fff;
+}
+#listArea button{
+  position: absolute;
+  display: inline-block;
+  background-color: #ef4c6c;
+  margin-left: 70px;
+  margin-top: 225px;
+  width: 60px;
+  height: 30px;
+  border: 2px #fff solid;
+}
+</style>
+</head>
+<body>
+   <div id="wrapper">
+      <div id="inputArea">
+         <input type="text" id="intext"/>
+         <button id="add">ADD</button>
+     </div>
+     <div id="listArea"></div> 
+   </div>
+     
+    <script>
+         //跨浏览器的事件对象
+         var EventUtil = {
+            addHandler : function(element,type,handler){
+                if(element.addEventListener){
+                  element.addEventListener(type,handler,false);
+                }else if(element.attachEvent){
+                  element.attachEvent('on'+type,handler);
+                }else{
+                  element['on'+type] = handler;
+                }
+            },
+            getEvent : function(event){
+                return event ? event : window.event;
+            },
+            getTarget : function(event){
+                return event.target || event.srcElement;
+            },
+            preventDefault : function(event){
+                if(event.preventDefault){
+                  event.preventDefault();
+                }else{
+                  event.returnValue = false;
+                }
+            },
+            removeHandler : function(element,type,handler){
+                if(element.removeEventListener){
+                  element.removeEventListener(type,handler,false);
+                }else if(element.detachEvent){
+                  element.detachEvent('on'+type,handler);
+                }else{
+                  element['on'+type] = null;
+                }
+            },
+            stopPropagation : function(event){
+                 if(event.stopPropagation){
+                  event.stopPropagation();
+                 }else{
+                  event.cancelBubble = true;
+                 }
+            }
+
+         }
+         //在chrome下可以好好运行，FF下不支持innerHTML和innerText，很奇怪，IE就不谈了。
+         var text = document.getElementById('intext');
+         var listArea = document.getElementById('listArea');
+         var button = document.getElementById('add');
+         var textp = document.createElement('p'); 
+         str = '';
+         EventUtil.addHandler(text,'textInput',function(event){
+            event = EventUtil.getEvent(event);
+            str += event.data;  
+            var allowed = true;
+            EventUtil.addHandler(text,'keydown',function(event){
+                 if(!allowed) return;
+                 allowed = false;
+                 event = EventUtil.getEvent(event);
+                 if(event.keyCode == 8){                  
+                     str = str.substring(0,str.length-1);
+                     textp.innerHTML = '<span>'+str+'</span>';
+                     console.log(str); 
+                     allowed = true;
+                     return;
+                 }
+            });                  
+            textp.innerHTML = '<span>'+str+'</span>';           
+            //console.log(str);
+         });
+         var i = 0;
+         EventUtil.addHandler(button,'click',function(event){
+            text.value = '';
+            str = ''; 
+            i++;
+            var listSpan = textp.cloneNode(true);
+            var del = document.createElement('button');
+            del.id = 'del'+i;
+            del.innerHTML = 'delete';
+            listSpan.appendChild(del);
+            listArea.appendChild(listSpan);
+             var delet = document.getElementById('del'+i);
+            console.log(delet);
+            EventUtil.addHandler(delet,'click',function(event){
+                 console.log('delet');
+                 ev = EventUtil.getEvent(event);
+                 var target = EventUtil.getTarget(ev);
+                 console.log(target);
+                 target.parentNode.style.display = 'none';
+             });    
+         });   
+
+    </script>
+</body>  
+</html>
