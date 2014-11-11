@@ -12,3 +12,4 @@ Practice
 > 7. [table点击排序demo（angularjs）](https://rawgithub.com/zhangmengxue/Practice/master/table%E7%82%B9%E5%87%BB%E6%8E%92%E5%BA%8Fangular%E5%AE%9E%E7%8E%B0.html)
 > 8. [我的todolist原生js实现demo(chrome)](https://rawgithub.com/zhangmengxue/Practice/master/todolist.html)
 > 9. [一个div的神css](http://a.singlediv.com/)
+> 10. [css图片映射demo](https://rawgithub.com/zhangmengxue/Practice/master/css%E5%9B%BE%E5%83%8F%E6%98%A0%E5%B0%84demo.html)
