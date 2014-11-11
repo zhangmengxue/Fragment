@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>css图像映射demo</title>
+<style type="text/css">
+  .remote{
+    width: 420px;
+    height: 618px;
+    position: relative;
+  }
+  .remote img{
+    display: block;
+    border: 5px #2b3e53 solid;
+  }
+  .remote ul{
+    margin: 0;
+    padding:0;
+    list-style: none;
+  }
+  .remote a .hotspot{
+    position: absolute;
+    width: 150px;
+    height: 160px;
+  }
+  .remote .me a .hotspot{
+      left: 245px;
+      top: 90px;
+  }
+  .remote .pang a .hotspot{
+    left:50px;
+    top: 155px;
+  }
+  .remote a .link{
+    position: absolute;
+    display: block;
+    width: 10em;
+    right: -11em;
+    cursor: pointer;
+  }
+  .remote .me a .link{
+    top: 20px;
+  }
+  .remote .pang a .link{
+    top: 50px;
+  }
+  .remote a:hover .hotspot,
+  .remote a:focus .hotspot{
+     border: 2px #fff solid;
+  }
+  .remote a:hover .link,
+  .remote a:focus .link{
+    color: red;
+  }
+</style>
+</head>
+<body>
+    <div class="remote">
+      <img src="./images/me-pang.jpg" width="420" height="618" alt="me and pang"/>
+      <ul>
+        <li class="me">
+          <a href="http://www.cnblogs.com/skylar/" title="me">
+            <span class="hotspot"></span>
+            <span class="link">&raquo;ME</span>
+          </a>
+        </li>
+        <li class="pang">
+          <a href="http://www.cnblogs.com/skylar/" title="pang">
+             <span class="hotspot"></span>
+             <span class="link">&raquo;PangPang</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <script>     
+    </script>
+</body>  
+</html>
