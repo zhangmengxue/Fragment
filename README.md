@@ -13,3 +13,4 @@ Practice
 > 8. [我的todolist原生js实现demo(chrome)](https://rawgithub.com/zhangmengxue/Practice/master/todolist.html)
 > 9. [一个div的神css](http://a.singlediv.com/)
 > 10. [css图片映射demo](https://rawgithub.com/zhangmengxue/Practice/master/css%E5%9B%BE%E5%83%8F%E6%98%A0%E5%B0%84demo.html)
+> 11. [小胡子的彩票demo](http://qianduannotes.sinaapp.com/ssc/)
