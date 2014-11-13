@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>格子hover变红demo</title>
+<style type="text/css">
+/*方法一开始*/
+ul,li{
+  margin: 0;
+  padding:0;
+}
+ul li{
+  display: inline-block;
+  width: 55px;
+  height: 55px;
+  text-align: center;
+  line-height: 50px;
+}
+ul li a{ 
+  width: 50px;
+  height: 50px; 
+  display: block;
+  text-decoration: none;
+  border: 5px #00f solid;
+}
+ul li a:hover{
+	position:relative;
+  z-index: 9999;
+  border: 5px red solid;
+}
+/*方法一结束*/
+
+
+/*方法二开始*/
+.test{
+	width:165px;
+	height:165px;
+  text-align: center;
+	border: 5px #00f solid;
+	border-right:none;
+	border-bottom:none;
+}
+
+.test a{
+	width:50px;
+	height:50px;
+  line-height: 50px;
+	display:block;
+	float:left;
+	border: 5px #00f solid;
+	border-left:none;
+	border-top:none;
+	position:relative;
+  text-decoration: none;
+}
+
+.test a:hover{
+	border: 5px red solid;
+	margin: -5px 0 0 -5px;
+}
+/*方法二结束*/
+
+
+</style>
+</head>
+<body>
+      <!-- 第一种我自己搞出来的方法，哎，IE低版本会有排版问题 -->
+       <span>第一种方法：</span>
+       <ul class="row1">
+          <li><a href="#">1</a></li
+            ><li><a href="#">2</a></li
+            ><li><a href="#">3</a></li>
+        </ul>
+        <ul class="row2">
+          <li><a href="#">4</a></li
+            ><li><a href="#">5</a></li
+            ><li><a href="#">6</a></li>
+        </ul>
+        <ul class="row3">
+          <li><a href="#">7</a></li
+            ><li><a href="#">8</a></li
+            ><li><a href="#">9</a></li>
+        </ul>
+    
+    <!-- <div>
+      我觉得实现这个有三点需要注意：
+      1.<li>之间的空白问题即使已经padding、margin为0了；
+      2.hover在ie6下只有a标签可以；
+      3.hover时候表框的显示
+    </div> -->
+    
+    <br />
+    <br />
+    <br />
+    <!-- 比较完美的第二种方法，兼容ie低版本 -->
+    <span>第二种方法：</span>
+    <div class="test">
+    	<a href="#">1</a>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">4</a>
+        <a href="#">5</a>
+        <a href="#">6</a>
+        <a href="#">7</a>
+        <a href="#">8</a>
+        <a href="#">9</a>
+    </div>
+    
+    <script type="text/javascript">
+    </script>
+</body>  
+</html>
