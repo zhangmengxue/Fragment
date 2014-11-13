@@ -54,7 +54,7 @@ ul li a:hover{
   text-decoration: none;
 }
 
-.test a:hover{
+.test a:hover,.test .hover{
 	border: 5px red solid;
 	margin: -5px 0 0 -5px;
 }
@@ -94,7 +94,7 @@ ul li a:hover{
     <br />
     <!-- 比较完美的第二种方法，兼容ie低版本 -->
     <span>第二种方法：</span>
-    <div class="test">
+    <div id="test" class="test">
     	<a href="#">1</a>
         <a href="#">2</a>
         <a href="#">3</a>
@@ -107,6 +107,18 @@ ul li a:hover{
     </div>
     
     <script type="text/javascript">
+      (function(){
+      var list = [0,1,2,5,8,7,6,3,4],
+        a    = document.getElementById("test").getElementsByTagName("a"),
+        index= -1;
+      
+      window.setInterval(function(){
+        index++;
+        a[list[index]].className = "hover";
+        index > 0 ? a[list[index-1]].className = "" : a[list[list.length-1]].className = "";
+        index == 8 ? index = -1 : null;
+      },500);
+    })();
     </script>
 </body>  
 </html>
