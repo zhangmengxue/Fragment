@@ -17,3 +17,4 @@ Practice
 > 12. [格子hover边框变色demo](https://rawgithub.com/zhangmengxue/Practice/master/%E6%A0%BC%E5%AD%90hover%E5%8F%98%E8%89%B2demo.html)
 > 13. [超炫velocityJS demo](http://runjs.cn/detail/vwsapkkt) 
 > 14. [一本书里的大千世界-赞](http://www.webhek.com/misc/creativeguidebook/)
+> 15. [3D超强效果demo](http://www.17sucai.com/preview/147469/2014-06-19/3D_Animation/index.html)
