@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>改变字体大小边距不变demo</title>
+<style type="text/css">
+a{
+  display: block;
+  position: relative;
+  width: 300px;
+  height: 150px;
+  background-color:#2b3e53;
+  color:transparent;
+  font-size: 35px;
+  text-decoration: none;
+  border-bottom: 5px #ef4c6c solid;
+  bottom:5px;
+}
+a:after{
+  display: block;
+  position: absolute;
+  content: attr(title);
+  color: #ffffff;
+  left: 10px;
+  bottom: 5px;
+}
+
+</style>
+</head>
+<body>
+   <a href="#" title="订阅博客">订阅博客</a>
+     
+    <script>
+    </script>
+</body>  
+</html>
