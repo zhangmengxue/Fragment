@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>demo</title>
+<style type="text/css">
+
+</style>
+</head>
+<body>
+<style type="text/css">
+.box {
+display: table-cell;
+vertical-align:middle;
+width:200px;
+height:200px;
+text-align:center;
+/* hack for ie */
+*display: block;
+*font-size: 175px;
+/* end */
+border: 5px solid red;
+}
+.box img {
+vertical-align:middle;
+}
+</style>
+<div class="box">
+<img src="./images/pic.jpg"  alt="" />
+</div>
+<span>淘宝招聘官评语：
+很遗憾，这个解法用到了css hack。我们也不理解为什么设置font-size可以让IE显示垂直居中的效果。根据我们的计算，高度/字体大小的比值为1.14左右时IE可实现垂直居中。
+当然还有很多其他的实现方案，但需要引入额外的标签。对于流量超大的淘宝网而言，我们经过权衡，倾向于在此问题上合理的使用hack。</span>
+</body>  
+</html>
