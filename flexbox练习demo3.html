@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>flexbox练习demo</title>
+<style type="text/css">
+.container{
+
+	display: flex;
+	flex-flow:row wrap;
+   
+    text-align: center;
+	height: 300px;
+	border: 2px #000 solid;
+}
+.header, .main, .aside1, .aside2, .footer {
+  flex: 1 100%;
+}
+.header {
+  background: tomato;
+}
+
+.footer {
+  background: lightgreen;
+}
+
+.main {
+  background: deepskyblue;
+}
+.aside1 {
+  background: gold;
+}
+
+.aside2 {
+  background: hotpink;
+}
+/*使用媒体查询*/
+@media all and (min-width: 600px) {
+  .aside1,.aside2 { flex: 1 auto; }
+}
+
+@media all and (min-width: 800px) {
+  .main { flex: 2 0px; }
+  .aside1 { order: 1; }
+  .main    { order: 2; }
+  .aside2 { order: 3; }
+  .footer  { order: 4; }
+}
+
+</style>
+</head>
+<body>
+<div class="container">
+	<div class="header">header</div>
+	<div class="main"><p>这里放些内容看看能不能撑开高度。这里放些内容看看能不能撑开高度。这里放些内容看看能不能撑开高度。这里放些内容看看能不能撑开高度。这里放些内容看看能不能撑开高度。这里放些内容看看能不能撑开高度。这里放些内容看看能不能撑开高度。这里放些内容看看能不能撑开高度。看吧放之前跟放置后对比下，可好玩了。看吧放之前跟放置后对比下，可好玩了。看吧放之前跟放置后对比下，可好玩了。看吧放之前跟放置后对比下，可好玩了。</p></div>
+	<div class="aside1">aside1</div>
+	<div class="aside2">aside2</div>
+	<div class="footer">footer</div>
+</div>
+</body>  
+</html>

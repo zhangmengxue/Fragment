@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>一般三列等高布局demo</title>
+<style type="text/css">
+.wrapper{
+	width: 100%;
+	overflow: hidden;
+	position: relative;
+}
+.box{
+	width: 250px;
+	float: left;
+	display: inline;
+	color: #fff;
+	border:5px #ef4c6c solid;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 20px;
+	padding-bottom: 520px;
+	margin-bottom: -500px;
+	margin-left: 20px;
+	background-color: #2b3e53;
+}
+.bottom{
+	position: absolute;
+	bottom: 0;
+	height: 20px;
+	width: 290px;
+	margin-left: -20px;
+	border-bottom:5px #ef4c6c solid;
+	background-color: #2b3e53;
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+	<div class="box">
+		<h1>第一列</h1>
+		<p><b>自适应最高内容实现三列布局等高，而不用调整子元素的高度。</b>这种三列等高布局的兼容性良好。其实现原理就是给每个框设置大的底内边距，然后用数值相似的负外边距消除这个高度，这会到时每个列溢出容器元素。如果把容器的overflow设置为hidden，列就在最高点被裁切。然后应用那个空的div bottom position：absolute定位在底下。这种三列等高布局的兼容性良好。其实现原理就是给每个框设置大的底内边距，然后用数值相似的负外边距消除这个高度，这会到时每个列溢出容器元素。如果把容器的overflow设置为hidden，列就在最高点被裁切。然后应用那个空的div bottom position：absolute定位在底下。
+		</p>
+		<div class="bottom"></div>
+	</div>
+	<div class="box">
+		<h1>第二列</h1>
+		<p>>>1.MDN上说的iframeHTML 的（HTML inline框架元素）是一个嵌套的浏览上下文，他可以有效地嵌入另一个HTML页面到当前页面。在HTML 4.01中，一个文件可能包含一个头和一个身体或头部和一个框架集，而不是一个身体和一个框架集。</p>
+		<div class="bottom"></div>
+	</div>
+	<div class="box">
+		<h1>第三列</h1>
+		<p>>>1.MDN上说的iframeHTML 的（HTML inline框架元素）是一个嵌套的浏览上下文，他可以有效地嵌入另一个HTML页面到当前页面。</p>
+		<div class="bottom"></div>
+	</div>
+
+</div>
+</body>  
+</html>
