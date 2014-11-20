@@ -19,3 +19,4 @@ Practice
 > 14. [一本书里的大千世界-赞](http://www.webhek.com/misc/creativeguidebook/)
 > 15. [3D超强效果demo](http://www.17sucai.com/preview/147469/2014-06-19/3D_Animation/index.html)
 > 16. [字体大小变化间距不变demo](https://rawgit.com/zhangmengxue/Practice/master/%E6%94%B9%E5%8F%98%E5%AD%97%E4%BD%93%E5%A4%A7%E5%B0%8F%E9%97%B4%E8%B7%9D%E4%B8%8D%E5%8F%98demo.html) 这个来自于[一丝的面试题](http://weibo.com/1397442732/z8xDU9uHS?type=comment#_rnd1416200594911)
+> 17. <a href="https://rawgithub.com/zhangmengxue/Practice/master/%E5%8E%9F%E7%94%9Fjs%E8%BE%93%E5%85%A5%E9%82%AE%E7%AE%B1%E6%8F%90%E7%A4%BA(%E7%B1%BB%E5%BE%AE%E5%8D%9A).html">输入邮箱登陆提示（支持鼠标键盘）demo</a>
