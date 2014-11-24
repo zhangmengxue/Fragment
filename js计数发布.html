@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>js类似微博发布框demo</title>
+<style type="text/css">
+body{
+	margin:0;
+	padding:0;
+	border:0;
+}
+#wrapper{
+    width:620px;
+    height:160px;
+    padding:15px;
+    margin:0 auto;
+    position:relative;
+    border:2px #261d3b solid;
+    border-radius: 2px;
+    background-color: #261d3b;
+}
+#share{
+	display:block;
+    padding:5px;
+    color:#b377e3;
+}
+#num{
+	display:block;
+	position:absolute;
+	right:36px;
+	top:18px;
+    padding:5px;
+    color:#b377e3;
+}
+textarea{
+	display:block;
+	width:600px;
+	height:100px;
+	outline: none;
+	overflow:auto;/* 去掉ie下textarea的默认滚动条 */
+    border-width: 1px;
+    background-color: #5b577c;
+}
+.dis,.able{
+	display:block;
+	float:right;
+	margin-right: 16px;
+	margin-top: 5px;
+	width:76px;
+	height:32px;
+	background-color: #ffc09f;
+	color:#fff;
+	border:2px #ffc09f solid;
+	border-radius: 4px;
+	cursor: pointer;
+}
+.dis{
+	background-color: #ffc09f;
+	border:2px #ffc09f solid;
+}
+.able{
+	background-color: #f77c3d;
+	border:2px #f77c3d solid;
+}
+</style>
+</head>
+<body>
+<div id="wrapper">
+	<span id="share">分享新鲜事儿</span>
+	<span id="num"><span id="count">0</span>/150</span>
+	<textarea placeholder="请输入你的分享150字以内"></textarea>
+	<button class="dis">发布</button>
+</div>
+<script type="text/javascript">
+    window.onload = function(){
+    	var she = new share();
+    	she.getFocus();
+    	she.getBlur();
+    	she.getPost();
+    	she.Post();
+    }
+	function share(){
+		this.count = document.getElementById('count');
+		this.txt = document.getElementsByTagName('textarea')[0];
+		this.btn = document.getElementsByTagName('button')[0];
+	}
+	share.prototype = {
+		/*textarea获得焦点*/
+		getFocus : function(){
+			var that = this;
+            this.txt.onfocus = function(){
+            	this.style.borderColor = '#f77c3d' ;
+            	
+            }
+		},
+		/*textarea失去焦点*/
+		getBlur : function(){
+			this.txt.onblur = function(){
+				this.style.borderColor = '#5b577c';
+			}
+		},
+		/*兼容ie输入改变事件*/
+		getPost : function(){
+			var ie = !-[1,]; 
+			var that = this;
+			if(ie){
+                this.txt.onpropertychange = function(){
+                    that.getInputlen();
+                }
+			}else{
+				this.txt.oninput = function(){
+					that.getInputlen();
+				}
+			}
+			
+		},
+		/*计数输入长度*/
+		getInputlen : function(){
+            var len = this.txt.value.length;
+            this.count.innerHTML = len;
+            if(len>=1&&len<150){
+        		this.btn.className = 'able';
+        	}else if(len == 0){
+                this.btn.className = 'dis';
+        	}else if(len >= 150){
+        		this.btn.className = 'dis';
+                this.count.innerHTML = '已超出'+(len-150)+'个字';
+        	}
+		},
+	   /*发布控制*/
+		Post : function(){
+			var timer = '';
+            var num = 0;
+            var that = this;
+			this.btn.onclick = function(){			
+                if(that.btn.className =='dis'){               	
+                   clearInterval(timer);
+            		timer = setInterval(function(){
+            			if(num == 5){
+	            			clearInterval(timer);
+	            			num = 0;
+	            		}else
+                        num++;
+	            		if(num%2){
+                            that.txt.style.backgroundColor = '#ffc09f';
+	            		}else{
+	            			that.txt.style.backgroundColor = '';
+	            		}            		  
+            	     },200);           		               	              
+                }else{               	
+                	alert('发布成功！');
+                	that.txt.value = '';
+                }
+			}
+		}
+
+	}
+</script>
+</body>  
+</html>
