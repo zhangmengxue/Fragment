@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>css3 3d翻页 demo</title>
+<style type="text/css">
+#space{
+	-webkit-perspective:800;
+	-webkit-perspective-origin:50% 50%;
+
+	overflow:hidden;
+}
+#pagegroupe{
+	width:400px;
+	height:400px;
+	margin:0 auto;
+
+	-webkit-transform-style:perserve-3d;
+	position:relative;
+}
+.page{
+	width:360px;
+	height:360px;
+	padding:20px;
+	background-color: black;
+	color:white;
+	font-size: 360px;
+	font-weight: bold;
+	text-align: center;
+	line-height: 360px;
+	position:absolute;
+}
+#page1{
+   -webkit-transform-origin: bottom;
+   -webkit-transition:-webkit-transform 1s linear;
+}
+#page2,#page3,#page4,#page5,#page6{
+   -webkit-transform-origin: bottom;
+   -webkit-transition:-webkit-transform 1s linear;
+   -webkit-transform: rotateX(180deg);
+}
+#op{
+	margin:0 auto;
+	text-align: center;
+}
+</style>
+</head>
+<body>
+<div id="space">
+	<div id="pagegroupe">
+		<div class="page" id="page1">1</div>
+		<div class="page" id="page2">2</div>
+		<div class="page" id="page3">3</div>
+		<div class="page" id="page4">4</div>
+		<div class="page" id="page5">5</div>
+		<div class="page" id="page6">6</div>
+	</div>
+</div>
+<div id="op">
+	<a href="javascript:next()">next</a>&nbsp;<a href="javascript:prev()">prev</a>
+</div>
+<script type="text/javascript">
+
+var curIndex = 1;
+
+function next(){
+	if(curIndex == 6){
+		return;
+	}
+   var curpage = document.getElementById('page'+curIndex);
+   curpage.style.webkitTransform = 'rotateX(-180deg)';
+   curIndex++;
+   var nextPage = document.getElementById('page'+curIndex);
+   nextPage.style.webkitTransform = 'rotateX(0deg)';
+
+}
+function prev(){
+  if(curIndex == 1){
+		return;
+	}
+	var curpage = document.getElementById('page'+curIndex);
+	curpage.style.webkitTransform = 'rotateX(180deg)';
+	curIndex--;
+	var prevpage = document.getElementById('page'+curIndex);
+	prevpage.style.webkitTransform = 'rotateX(0deg)';
+}
+</script>
+</body>  
+</html>
