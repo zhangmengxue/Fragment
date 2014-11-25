@@ -1,0 +1,56 @@
+<!DOCTYPE html> 
+<html>
+<head>
+<meta charset=utf-8>
+<title>clientX\clientY screenX/screenY example</title>
+<style type="text/css">
+	body{
+		margin:0;
+		padding:0;
+		border:0;
+		width:1000px;
+		height:1000px;
+		 border: solid #ef4c6c 5px;
+	}
+	label{
+		display:block;
+		position:fixed;
+	}
+	.one{
+       	left:50px;
+		top:50px;
+	}
+	.two{
+        left:450px;
+		top:50px;
+	}
+	.three{
+       	left:50px;
+		top:150px;
+	}
+	.four{
+        left:450px;
+		top:150px;
+	}
+</style>
+</head>
+<body onmousedown="showCoords(event)">
+<p>点击此框框里的任何地方查看clientX/clientY和screenX/screenY的坐标值：</p>
+<label class="one">clientX:<input type="text"/></label>
+<label class="two">clientY:<input type="text"/></label>
+<label class="three">screenX:<input type="text"/></label>
+<label class="four">screenY:<input type="text"/></label>
+<script>
+function showCoords(event){
+  var input1 = document.getElementsByTagName('input')[0];
+  var input2 = document.getElementsByTagName('input')[1];
+  var input3 = document.getElementsByTagName('input')[2];
+  var input4 = document.getElementsByTagName('input')[3];
+  input1.value = event.clientX;
+  input2.value = event.clientY;
+  input3.value = event.screenX;
+  input4.value = event.screenY;
+}
+</script>
+</body>
+</html>
