@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>原生js实现拖拽demo（兼容）</title>
+<style type="text/css">
+html,body{
+  padding:0;
+  margin:0;
+  overflow:hidden;
+}
+#obj{
+  width:100px;
+  height:100px;
+  position:absolute;
+  background-color: #ef4c6c;
+  cursor: move;
+}
+</style>
+</head>
+<body>
+  <div id="obj"></div>
+
+    <script type="text/javascript">
+      obj.onmousedown = function(e){
+
+            var e = e || window.event
+              , sX = (e.pageX || e.clientX) - parseInt(obj.offsetLeft, 10)
+                , sY = (e.pageY || e.clientY) - parseInt(obj.offsetTop, 10);
+
+              document.body.onmousemove = function(e){
+
+                  document.body.onmouseup = document.body.onmouseleave = function(e){
+                      document.body.onmousemove = document.body.onmouseup = document.body.onmouseleave = null;
+                  };
+
+                  with(obj.style){
+                      left = (e.pageX || e.clientX) - sX + "px";
+                      top = (e.pageY || e.clientY) - sY + "px";
+                  }
+              };
+          };
+    </script>
+</body>  
+</html>
