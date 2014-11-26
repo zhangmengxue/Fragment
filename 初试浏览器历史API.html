@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>浏览器历史API demo</title>
+<style type="text/css">
+
+</style>
+</head>
+<body>
+    <h1 id="number">1</h1>
+    <a id="forward" href="?"num=2>Go forward</a>
+
+   <!--  为了局部刷新页面加快速度，同时改变url 移动端利器 -->
+    
+    <script type="text/javascript">
+
+       var link = document.getElementById('forward');
+       var num = document.getElementById('number');
+       
+       //点击事件发生时手动改变浏览器url
+       link.addEventListener('click',function(e){
+         e.preventDefault();
+         var myNum = parseInt(num.innerHTML,10);
+         num.innerHTML = ++myNum;
+        //pushState(一个代表状态state的对象，一个标题，一个url)
+         history.pushState({count:myNum},null,'?num='+myNum);
+         document.title = 'Number'+myNum;
+       });
+
+       /*addEventListener('popstate',function(e){
+          if(e.state && e.state.count){           
+              num.innerHTML = e.state.count;
+              document.title = 'Number'+e.state.count;
+          }else{
+              setNumFromURL();
+          }
+       });
+
+       function setNumFromURL(){
+          if(location.search){
+            console.log(2);
+              var match = location.search.match(/num=([0-9]+)/);
+              if(match){
+                document.getElementById('number').innerHTML = match[1];
+                document.title = 'Number'+match[1];
+              }
+          }else{
+            document.getElementById('number').innerHTML = 1
+            document.title = 'Number 1';
+          }
+       }*/
+
+       //为不支持pushState的浏览器做兼容
+       var useHash = false;
+       var hashExp = /#[0-9]+/;
+       if(!history.pushState){
+         useHash = true;
+       }
+
+       function handleStateChange(count){
+          num.innerHTML = count;
+          document.title = 'Number'+ count;
+       }
+       //在支持pushState时使用popstate事件
+       if(!useHash){
+           //popstate事件在用户因使用‘后退’或‘前进’按钮儿导致状态堆位置发生改变时出发
+           addEventListener('popstate',function(e){
+            if(e.state && e.state.count){           
+                num.innerHTML = e.state.count;
+                document.title = 'Number'+e.state.count;
+            }else{
+                setNumFromURL();
+            }
+          });
+       }else{
+         setNumFromURL();
+         var oldHash = location.hash;
+
+         window.setInterval(function(){
+            var match;
+            if(window.hash !== oldHash){
+               match = location.hash.match(hashExp);
+               oldHash = location.hash;
+               if(match){
+                 handleStateChange(match[1]);
+               }
+            }
+         },100);
+       }
+
+       function setNumFromURL(){
+         //当用户从别的地方加载了查询字符串类型的url
+          if(location.search){
+            console.log(2);
+              var match = location.search.match(/num=([0-9]+)/);
+              if(match){
+                 if(useHash){
+                   location = 'history.html#'+match[1];
+                 }else{
+                    document.getElementById('number').innerHTML = match[1];
+                    document.title = 'Number'+match[1];
+                 } 
+              }
+              //当用户从别的地方加载了hash类型的url
+          }else if(location.hash){
+             var match = location.hash.match(hashExp);
+             document.getElementById('number').innerHTML = match[1];
+             document.title = 'Number' + location.hash;
+             if(!useHash){
+               history.pushState({count:match[1]},null,'history.html?num='+match[1]);
+             }
+          }else{
+             document.getElementById('number').innerHTML = 1;
+             document.title = 'Number 1';
+          }
+       }
+    </script>
+</body>  
+</html>
