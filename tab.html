@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>Tab切换 demo</title>
+<style type="text/css">
+*{
+  margin:0;
+  padding:0;
+  font-size: 12px;
+  list-style: none;
+}
+.notice{
+  width:352px;
+  height:168px;
+  margin:10px;
+  border: 5px #ef4c6c solid;
+  overflow:hidden;
+}
+.notice-tit{
+  height:52px;
+  position:relative;
+  background:#f7f7f7;
+}
+.notice-tit li a{
+  display:inline-block;
+  float:left;
+  padding:14px;
+  width:42px;
+  font-size: 1.5em;
+  text-decoration: none;
+  border-bottom: 1px #ef4c6c solid;
+
+}
+.notice-tit li.select a{
+  background-color:#fff;
+  border-left: 1px #ef4c6c solid;
+  border-right: 1px #ef4c6c solid;
+  border-bottom: 3px #fff solid;
+}
+.notice-tit li a:hover{
+  color:#f90;
+}
+.mod a{
+  display:inline-block;
+  float:left;
+  margin:10px;
+  width:150px;
+  height:35px;
+  text-decoration: none;
+}
+</style>
+</head>
+<body>
+    <div id="notice" class="notice">
+       <div id="notice-tit" class="notice-tit">
+          <ul>
+            <li><a href="#">公告</a></li>
+            <li><a href="#">规则</a></li>
+            <li><a href="#">论坛</a></li>
+            <li><a href="#">安全</a></li>
+            <li class="select"><a href="#">公益</a></li>
+          </ul>
+      </div>
+      <div id="notice-con" class="notice-con">
+          <div class="mod" style="display:none">
+            <ul>
+              <li><a href="#">我是公告内容</a></li>
+              <li><a href="#">我是公告内容</a></li>
+              <li><a href="#">我是公告内容</a></li>
+              <li><a href="#">我是公告内容</a></li>
+            </ul>
+          </div>
+          <div class="mod" style="display:none">
+            <ul>
+              <li><a href="#">内容规则</a></li>
+              <li><a href="#">内容规则</a></li>
+              <li><a href="#">内容规则</a></li>
+              <li><a href="#">内容规则</a></li>
+            </ul>
+          </div>
+          <div class="mod" style="display:none">
+            <ul>
+              <li><a href="#">论坛</a></li>
+              <li><a href="#">论坛</a></li>
+              <li><a href="#">论坛</a></li>
+              <li><a href="#">论坛</a></li>
+            </ul>
+          </div>
+          <div class="mod" style="display:none">
+            <ul>
+              <li><a href="#">content4</a></li>
+              <li><a href="#">content4</a></li>
+              <li><a href="#">content4</a></li>
+              <li><a href="#">content4</a></li>
+            </ul>
+          </div>
+          <div class="mod" style="display:block">
+            <ul>
+              <li><a href="#">content5</a></li>
+              <li><a href="#">content5</a></li>
+              <li><a href="#">content5</a></li>
+              <li><a href="#">content5</a></li>
+            </ul>
+          </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+        
+        window.onload = function(){
+           var titles = document.getElementById('notice-tit').getElementsByTagName('li');
+           var divs =document.getElementById('notice-con').getElementsByTagName('div');
+           var index = 0;
+           var timer = null;
+
+           if(titles.length!=divs.length){return;} 
+           
+           for(var i=0;i<titles.length;i++){
+              console.log(0);
+              titles[i].id = i;
+              titles[i].onmouseover = function(e){
+                   if(timer){
+                     clearTimeout(timer);
+                     timer = null;
+                   }     
+                   var that = this;             
+                   timer = setTimeout(function(){
+                            //清除所有li上的class
+                        for(var j=0;j<titles.length;j++){
+                          titles[j].className='';
+                          divs[j].style.display = 'none';
+                        }
+                        //设置当前高亮显示
+                        that.className = 'select';
+                        divs[that.id].style.display = 'block';
+                   },500);  
+               }
+           }
+           
+        }
+    </script>
+</body>  
+</html>
