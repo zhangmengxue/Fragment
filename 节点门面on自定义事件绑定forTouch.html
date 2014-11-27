@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>节点门面on()自定义事件绑定demo</title>
+<style type="text/css">
+
+</style>
+</head>
+<body>
+    <button class="button">button</button>
+    <span id="touchEvent"></span>
+    <script type="text/javascript">
+           (function(){
+             var TOUCHSTART,TOUCHEND;
+              //常规的touch事件
+             if(typeof(window.ontouchstart)!='undefined'){
+                 TOUCHSTART = 'touchstart';
+                 TOUCHEND = 'touchend';
+                 //IE的触摸事件
+             }else if(typeof(window.onmspointerdown)!='undefined'){
+                 TOUCHSTART = 'MSPointerDown';
+                 TOUCHEND = 'MSPointerUp';
+                 //鼠标事件
+             }else{
+                TOUCHSTART = 'mousedown';
+                TOUCHEND = 'mouseup';
+             }
+             //简单$选择器
+             window.$ = function(selector){
+                var node = document.querySelector(selector);
+                if(node){
+                  return new NodeFace(node);
+                }else{
+                  return null;
+                }
+             }
+
+               //构造函数
+             function NodeFace(node){
+               this._node = node;
+             }
+
+             NodeFace.prototype = {
+               getNode : function(){
+                  return this._node;
+               },
+               on : function(e, callback){
+                  if(e === 'tap'){
+                    this._node.addEventListener(TOUCHSTART,callback);
+                  }else if(e === 'tapend'){
+                    this._node.addEventListener(TOUCHEND,callback);
+                  }else{
+                    this._node.addEventListener(e,callback);
+                  }
+                  return this;
+               },
+               off : function(e,callback){
+                  if(e === 'tap'){
+                    this._node.removeEventListener(TOUCHSTART,callback);
+                  }else if(e === 'tapend'){
+                    this._node.removeEventListener(TOUCHEND,callback);
+                  }else{
+                    this._node.removeEventListener(e,callback);
+                  }
+                  return this;
+               }
+             }
+           })();
+ 
+          //注意链式调用
+          $('.button').on('tap',function(e){
+              e.preventDefault();
+              console.log('合成事件touchstart!!!');
+          }).on('tapend',function(e){
+              console.log('合成事件touchend!!!');
+          });
+            
+    </script>
+</body>  
+</html>
