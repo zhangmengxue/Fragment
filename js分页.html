@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>js分页demo</title>
+<style type="text/css">
+a{
+  margin:5px;
+}
+</style>
+</head>
+<body>
+    <div id="block">
+      <!-- <a href="#">首页</a>
+      <a href="#">上一页</a>
+      <a href="#">[1]</a>
+      <a href="#">[2]</a>
+      <a href="#">3</a>
+      <a href="#">[4]</a>
+      <a href="#">[5]</a>
+      <a href="#">下一页</a>
+      <a href="#">尾页</a> -->
+    </div>
+     
+    <script>
+        window.onload = function(){
+          page({
+            obj : 'block',
+            nowNum : 7,
+            allNum : 10,
+            callback : pageCall
+          });
+        }
+         
+        function pageCall(now,all){
+          alert('当前页:'+now+'; 总共页:'+all);
+        }
+
+        function page(opt){
+           var div = document.getElementById(opt.obj);
+           var nowNum = opt.nowNum || 1;
+           var allNum = opt.allNum || 5;
+           var pageCall = opt.callback || function(){};
+            
+           if(nowNum>=4&&allNum>=6){
+             var oA = document.createElement('a');
+             oA.href = '#1';
+             oA.innerHTML = '首页';
+             div.appendChild(oA);
+           }
+           if(nowNum>=2){
+             var oA = document.createElement('a');
+             oA.href = '#'+(nowNum-1);
+             oA.innerHTML = '上一页';
+             div.appendChild(oA);
+           }
+           
+           if(allNum<=5){
+               for(var i=1;i<=allNum;i++){
+                  var oA = document.createElement('a');
+                  oA.href='#'+i;
+                  if(i == nowNum){                     
+                       oA.innerHTML = i;
+                    }else{
+                       oA.innerHTML = '['+i+']';
+                    } 
+                  div.appendChild(oA);         
+                 }
+            }else{
+                for(var i=1;i<=5;i++){
+                  var oA = document.createElement('a');
+                  
+                  //当前页为1和2的时候不应该前面出现-1和0
+                  if(nowNum==1||nowNum==2){
+
+                       oA.href = '#'+i;
+                       if(nowNum ==i){
+                         oA.innerHTML =i;
+                       }else{
+                          oA.innerHTML ='['+i+']';
+                       }
+                      
+                   //当前页为总数的后两页时，不应该有超过总数的页数    
+                  }else if((allNum - nowNum) == 0 || (allNum - nowNum) == 1){
+
+                      oA.href = '#'+ (allNum-5+i);
+
+                      if((allNum - nowNum) == 0&&i==5){
+                        oA.innerHTML = (allNum-5+i);
+                      }else if((allNum - nowNum) == 1&&i==4){
+                         oA.innerHTML = (allNum-5+i);
+                      }else{
+                        oA.innerHTML = '['+(allNum-5+i)+']';
+                      }
+                    
+                     //显示当前页前后共5页
+                  }else{
+
+                     //第几次循环#后的数字为几
+                      oA.href='#'+(nowNum-3+i);
+                      oA.innerHTML = '['+(nowNum-3+i)+']';
+                      //当前页不应该有中括号
+                      if(i==3){
+                        oA.innerHTML = (nowNum-3+i);
+                      }
+
+                  }
+                  
+                  div.appendChild(oA);
+                }
+              }
+           
+           if((allNum - nowNum)>=1){
+             var oA = document.createElement('a');
+             oA.href = '#'+(nowNum + 1);
+             oA.innerHTML = '下一页';
+             div.appendChild(oA);
+           }
+
+           if((allNum - nowNum)>=3 && allNum >=6){
+             var oA = document.createElement('a');
+             oA.href = '#'+allNum;
+             oA.innerHTML = '尾页';
+             div.appendChild(oA);
+           }
+           
+           //回调函数
+           pageCall(nowNum,allNum);
+
+           var oA = div.getElementsByTagName('a');
+           for(var i=0;i<oA.length;i++){
+             oA[i].onclick = function(){
+               var nowNum = parseInt(this.getAttribute('href').substring(1),10);
+
+               div.innerHTML = '';
+
+               page({
+                obj : opt.obj,
+                nowNum : nowNum,
+                allNum : allNum,
+                callback : pageCall
+               });
+
+               return false;
+             }
+           }
+
+        }
+    </script>
+</body>  
+</html>
