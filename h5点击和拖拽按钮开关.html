@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset=utf-8>
+<title>h5实现滑动开关</title>
+</head>  
+<style>  
+   .ui-slider {font-size: 16px;line-height: 2em;}
+       .ui-slider input {display:none;}
+       .ui-slider-wrap {
+       	display: inline-block;
+       	overflow: hidden;
+       	width: 7em;
+       	height: 2em;
+       	border: 1px solid #bbb;
+       	border-radius: 1em;
+       	font-weight: bold;
+       }
+       .ui-slider-content{display: block;width: 12em;}
+       .ui-slider-off,.ui-slider-btn,.ui-slider-on {
+       	float: left;
+       	margin-left: -1em;
+       	width: 5em;
+       	text-align: center;
+       }
+       .ui-slider-off {
+       	margin-left: 0;
+       	padding-left: 1em;
+       	background: linear-gradient(#d0d0d0,#dfdfdf);
+       }
+       .ui-slider-btn {
+       	position: relative;
+       	border-radius: 1em;
+       	width: 2em;
+       	height: 2em;
+       	background: #fff;
+       }
+       .ui-slider-on{
+       	padding-left: 1em;
+       	color: #fff;
+       	background: linear-gradient(#5393c5,#6facd5);
+       }
+       /* 这就告诉我了，只要.ui-slider-content的margin-left是-5em时候开关就变成on了 */
+       .ui-slider-wrap.checked .ui-slider-content {margin-left: -5em;}
+</style>  
+    
+<body>
+   
+   <div class="ui-slider">
+   	  <label for="story">Story Mode:</label>
+   	  <span class="ui-slider-wrap">
+   	  	  <span class="ui-slider-content">
+   	  	  	  <span class="ui-slider-off">Off</span>
+   	  	  	  <span class="ui-slider-btn"></span>
+   	  	  	  <span class="ui-slider-on">On</span>
+   	  	  </span>
+   	  </span>
+   	  <input type="checkbox" name="story" id="story"/>
+   </div>
+
+   <script>
+      var btn = document.querySelector('.ui-slider-btn');
+      var wrap = document.querySelector('.ui-slider-wrap');
+      var content = document.querySelector('.ui-slider-content');
+      
+
+      btn.onclick = function(){
+        var classNa = wrap.className;
+        if(classNa == 'ui-slider-wrap'){
+          wrap.className = 'ui-slider-wrap checked';        
+        }else{
+          wrap.className = 'ui-slider-wrap';        
+        }
+      }    
+      
+      btn.onmousedown = function(e){
+          var e = e||window.event;
+          var origin = e.clientX;
+          var end;
+
+          btn.onmousemove = function(e){
+               btn.onmouseup = btn.onmouseleave = function(e){
+
+                  btn.onmousemove = btn.onmouseup = btn.onmouseleave = null;
+
+                   end = e.clientX;
+                    if(origin-end>=20){
+                      console.log(end-origin);
+                      wrap.className = 'ui-slider-wrap checked';
+                    }else{
+                       wrap.className = 'ui-slider-wrap';
+                    }
+                                
+               }
+      }
+    }
+
+   </script>
+</body>  
+</html>
