@@ -23,3 +23,4 @@ Practice
 > 18. [仿微博发布新鲜事demo](https://rawgithub.com/zhangmengxue/Practice/master/js%E8%AE%A1%E6%95%B0%E5%8F%91%E5%B8%83.html)
 > 19. [clip-path裁剪各种形状图片demo](https://rawgit.com/zhangmengxue/Practice/master/clip-path%E7%A5%9E%E6%8A%80%E5%B7%A7.html)
 > 20. [CSS3翻页效果demo](http://www.yuyihanqing.com/m/demo/page-flip/)
+> 20. [好看的一加手机周年庆demo](http://cheers.oneplus.cn/activity/1year.html)
