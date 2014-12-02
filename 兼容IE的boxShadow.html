@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>兼容IE的boxShadow实现demo</title>
+<style type="text/css">
+.shadow{
+	width:200px;
+	height:200px;
+	position:relative;
+	text-align: center;
+    /*神奇的文字垂直居中了 */
+	font: 14px/200px 微软雅黑;
+	background:#fff;
+	border:2px solid #ef4c6c;
+    /* 盒阴影 */
+	box-shadow: 0px 0px 10px #ef4c6c;
+}
+.shadow-IE{
+	display:block;
+	position:absolute;
+	background:#ef4c6c;
+	filter:progid:DXImageTransform.Microsoft.Blur(pixelRadius=5);
+}
+</style>
+</head>
+<body>
+    <div class="shadow">我是个有boxShadow的div</div>
+     
+    <script>
+        //判断IE
+        var isIE = /MSIE/i.test(navigator.userAgent);
+        //为了兼容ie，实际思想就是创建个标签，背景颜色用ie的滤镜过滤放在想添加boxShadow的div的下面，就有了boxShadow的假象，当shadow的颜色比较鲜明的时候，看起来会有些不自然，但毕竟实现了。
+        if(isIE){
+            var all = document.getElementsByTagName('*'),s=[],i=0;
+            while(o=all[i++]){
+            	if(o.className=="shadow"){
+            		s.push(o);
+            	}
+            }
+            for(i in s){
+            	var o = s[i];
+            	//<u>下划线标签
+            	var u = document.createElement('u');
+            	o.parentNode.style.position = 'relative';
+            	o.parentNode.style.zoom = 1;
+            	o.parentNode.insertBefore(u,o);
+            	u.className = 'shadow-IE';
+            	u.style.width = o.offsetWidth+'px';
+            	u.style.height = o.offsetHeight+'px';
+            };
+           window.resize = function(){
+           	 for(i in s){
+           	 	var o = s[i],p = o.previousSibling;
+           	 	p.style.top = o.offsetTop-5+'px';
+           	 	p.style.left = o.offsetLeft-5+'px';
+           	 }
+           };
+           window.resize();
+        }
+    </script>
+</body>  
+</html>
