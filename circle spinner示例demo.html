@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>demo</title>
+<style type="text/css">
+*{
+	margin:0;
+	padding:0;
+	outline:0;
+	background-color: #2b3e53;
+}
+.spinner{
+	width:70px;
+	height:70px;
+	position:relative;
+	left:50px;
+	top:50px;
+	color:white;
+}
+.spinner .top,.spinner .bottom{
+	width:70px;
+	height:35px;
+	position:relative;
+	overflow: hidden;
+}
+.spinner::before,.spinner .top::before,.spinner .bottom::before{
+	content: '';
+	width:70px;
+	height:70px;
+	display:inline-block;
+	border-style: solid;
+	border-top-color: #fff;
+	border-right-color: #fff;
+	border-left-color: transparent;
+	border-bottom-color: transparent;
+	border-radius: 50%;
+	border-width: 5px;
+	box-sizing:border-box;
+}
+.spinner::before{
+	position:absolute;
+	border-right-color: transparent;
+	border-top-color: transparent;
+	transform:rotateZ(47deg);
+	-webkit-animation:fix-gap 2s ease-in infinite;
+}
+.spinner .top::before{
+	transform:rotateZ(-225deg);
+	-webkit-animation:rotate-top 2s ease-in infinite;
+}
+.spinner .bottom::before{
+	border-bottom-color: #fff;
+	border-top-color: transparent;
+	position:relative;
+	bottom:35px;
+	transform:rotateZ(-135deg);
+	-webkit-animation:rotate-bottom 2s ease-out infinite;
+}
+@-webkit-keyframes fix-gap{
+	49% {
+		border-top-color: transparent;
+	}
+	50% {
+		border-top-color: white;
+	}
+	100% {
+		border-top-color: white;
+	}
+}
+@-webkit-keyframes rotate-top{
+	50% {
+		transform:rotateZ(-45deg);
+	}
+	100% {
+		transform:rotateZ(-45deg);
+	}
+}
+@-webkit-keyframes rotate-bottom{
+	50% {
+		transform:rotateZ(-135deg);
+	}
+	100% {
+		transform:rotateZ(45deg);
+	}
+}
+</style>
+</head>
+<body>
+     <div class="spinner">
+     	<div class="top"></div>
+     	<div class="bottom"></div>
+     </div>
+     
+</body>  
+</html>
