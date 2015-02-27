@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<title>钟表</title>
+
+<style type="text/css">
+body{background: black}
+#c1{background:white;}
+span{color:white;}
+</style>
+</head>
+
+<body>
+
+<canvas id="c1" width="400" height="400">
+	<span>不支持canvas的浏览器就会显示</span>
+</canvas>
+
+<script type="text/javascript">
+	window.onload = function(){
+		var oc = document.getElementById('c1');
+
+		var content = oc.getContext('2d');
+ 		
+ 		function toDraw(){
+ 			var x= 200;
+ 			var y = 200;
+ 			var r = 150;
+
+ 			content.clearRect(0,0,oc.width,oc.height);
+
+ 			var date = new Date();
+ 			var hour = date.getHours();
+ 			var minute = date.getMinutes();
+ 			var second = date.getSeconds();
+
+
+ 			var hValue = (-90+hour*30 + minute/2)*Math.PI/180;
+ 			var mValue = (-90+minute*6)*Math.PI/180;
+ 			var sValue = (-90+second*6)*Math.PI/180;
+
+ 			//表盘小刻度
+ 			content.beginPath();
+ 			for(var i=0;i<60;i++){
+ 				content.moveTo(x,y);
+ 				content.arc(x,y,r,6*i*Math.PI/180,6*(i+1)*Math.PI/180,false);
+ 			}
+ 			content.closePath();			
+ 			content.stroke();
+
+ 			//盖上中间部分
+ 			content.fillStyle = 'white';
+ 			content.beginPath();
+ 			content.moveTo(x,y);
+ 			content.arc(x,y,r*19/20,0,360*(i+1)*Math.PI/180,false);
+ 			content.closePath();
+ 			content.fill();
+
+ 			//表盘大刻度
+ 			content.lineWidth = 3;
+ 			content.beginPath();
+ 			for(var i=0;i<12;i++){
+ 				content.moveTo(x,y);
+ 				content.arc(x,y,r,30*i*Math.PI/180,30*(i+1)*Math.PI/180,false);
+ 			}
+ 			content.closePath();			
+ 			content.stroke();
+
+ 			//盖上中间部分
+ 			content.fillStyle = 'white';
+ 			content.beginPath();
+ 			content.moveTo(x,y);
+ 			content.arc(x,y,r*18/20,0,360*(i+1)*Math.PI/180,false);
+ 			content.closePath();
+ 			content.fill();
+
+ 			//时针
+ 			content.lineWidth = 5;
+ 			content.beginPath();
+ 			content.moveTo(x,y);
+ 			content.arc(x,y,r*10/20,hValue,hValue,false);
+ 			content.closePath();
+ 			content.stroke();
+
+ 			//分针
+ 			content.lineWidth = 3;
+ 			content.beginPath();
+ 			content.moveTo(x,y);
+ 			content.arc(x,y,r*14/20,mValue,mValue,false);
+ 			content.closePath();
+ 			content.stroke();
+
+ 			//秒针
+ 			content.lineWidth = 1;
+ 			content.beginPath();
+ 			content.moveTo(x,y);
+ 			content.arc(x,y,r*19/20,sValue,sValue,false);
+ 			content.closePath();
+ 			content.stroke();
+
+
+ 		}
+ 		setInterval(toDraw,1000);
+ 		toDraw();
+
+	}
+</script>
+</body>
+</html>

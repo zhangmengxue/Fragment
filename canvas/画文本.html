@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<title>画文本</title>
+
+<style type="text/css">
+body{background: black}
+#c1{background:white;}
+span{color:white;}
+</style>
+</head>
+
+<body>
+
+<canvas id="c1" width="400" height="400">
+	<span>不支持canvas的浏览器就会显示</span>
+</canvas>
+
+<script type="text/javascript">
+	window.onload = function(){
+		var oc = document.getElementById('c1');
+
+		var content = oc.getContext('2d');
+ 		
+ 		content.font = 'Bold 20px Arial';
+ 		content.textAlign = 'left';
+ 		content.fillStyle = '#008600';
+ 		//fillText('要显示的文本'，x坐标，y坐标)方法不支持文本断行，要显示多行文本只能多次调用
+ 		content.fillText('Hello World',100,100);
+ 		//content.strokeText('Hello World',100,100);
+
+	}
+</script>
+</body>
+</html>

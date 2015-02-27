@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<title>画圆和扇形</title>
+
+<style type="text/css">
+body{background: black}
+#c1{background:white;}
+span{color:white;}
+</style>
+</head>
+
+<body>
+
+<canvas id="c1" width="400" height="400">
+	<span>不支持canvas的浏览器就会显示</span>
+</canvas>
+
+<script type="text/javascript">
+	window.onload = function(){
+		var oc = document.getElementById('c1');
+
+		var content = oc.getContext('2d');
+ 		
+ 		content.beginPath();
+ 		//content.arc(x, y, radius, startAngle, endAngle, anticlockwise);arc方法的x和y参数是圆心坐标，radiu圆的零弧度在右端点，s是半径，startAngle和endAngle则是扇形的起始角度和终止角度（以弧度表示），anticlockwise表示做图时应该逆时针画（true）还是顺时针画（false）。
+ 		//弧度 = 角度*Math.PI/180
+ 		content.arc(100,100,60,0,Math.PI*2, true);
+ 		content.fillStyle = "#000000";
+ 		content.closePath();
+ 		content.fill();
+
+ 		content.moveTo(200,200);
+ 		content.arc(200,200,150,0,90*Math.PI/180,false);
+ 		content.closePath();
+ 		content.stroke();
+
+	}
+</script>
+</body>
+</html>

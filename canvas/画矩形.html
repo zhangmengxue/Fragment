@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<title>画矩形</title>
+
+<style type="text/css">
+body{background: black}
+#c1{background:white;}
+span{color:white;}
+</style>
+</head>
+
+<body>
+
+<canvas id="c1" width="400" height="400">
+	<span>不支持canvas的浏览器就会显示</span>
+</canvas>
+
+<script type="text/javascript">
+	window.onload = function(){
+		var oc = document.getElementById('c1');
+
+		var content = oc.getContext('2d');
+ 		
+ 		//content.fillStyle = 'red';
+		content.strokeStyle='blue';
+		content.lineWidth = 10;
+
+		content.lineJoin = 'round';//'bevel'
+
+
+		//content.fillRect(50,50,100,100);//黑色填充的方块
+		content.strokeRect(50,50,100,100);//黑色边框的方块，预期是一像素的边框，实际上是两个像素
+		//content.strokeRect(50.5,50.5,100,100);//可以得到一像素的边框
+
+		//content.clearRect(40,40,150,150);//前两个参数是清除的坐标点，后两个参数表示要清除的矩形的宽高
+
+	}
+</script>
+</body>
+</html>
