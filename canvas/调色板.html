@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<title>canvas调色板demo</title>
+
+<style type="text/css">
+
+</style>
+</head>
+
+<body>
+	<div class="canvasContainer">
+		<canvas id="canvas" width="400" height="250"></canvas>
+	</div>
+	<div class="canvasContainer">
+		<canvas id="canvas1" width="400" height="250"></canvas>
+	</div>
+
+<script type="text/javascript">
+	function draw(){
+	  var ctx = document.getElementById('canvas').getContext('2d');
+	  for(var i=0;i<8;i++){
+	  	for(var j=0;j<8;j++){
+	  		ctx.fillStyle = 'rgb('+Math.floor(255-31.875*i)+','+Math.floor(255-31.875*j)+',0)';
+	  		ctx.fillRect(j*25,i*25,25,25);
+	  	}
+	  }
+	}
+	draw();
+
+	function draw1(){
+	  var ctx = document.getElementById('canvas1').getContext('2d');
+	  for(var i=0;i<8;i++){
+	  	for(var j=0;j<8;j++){
+	  		ctx.strokeStyle = 'rgb('+Math.floor(255-31.875*i)+','+Math.floor(255-31.875*j)+',0)';
+	  		ctx.beginPath();
+	  		ctx.arc(12.5+j*25,12.5+i*25,10,0,Math.PI*2,true);
+	  		ctx.stroke();
+	  	}
+	  }
+	}
+	draw1();
+
+</script>
+</body>
+</html>

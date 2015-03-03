@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<title>canvas会话气泡demo</title>
+
+<style type="text/css">
+
+</style>
+</head>
+
+<body>
+	<div class="canvasContainer">
+		<canvas id="canvas" width="400" height="400"></canvas>
+	</div>
+
+<script type="text/javascript">
+	function draw(){
+	  var canvas = document.getElementById('canvas');
+	  if (canvas.getContext) {
+	    var ctx = canvas.getContext('2d');
+
+	    // Quadratric curves example
+	    ctx.beginPath();
+	    ctx.moveTo(75,25);
+	    ctx.quadraticCurveTo(25,25,25,62.5);
+	    ctx.quadraticCurveTo(25,100,50,100);
+	    ctx.quadraticCurveTo(50,120,30,125);
+	    ctx.quadraticCurveTo(60,120,65,100);
+	    ctx.quadraticCurveTo(125,100,125,62.5);
+	    ctx.quadraticCurveTo(125,25,75,25);
+	    ctx.stroke();
+
+		}
+	}
+	draw();
+
+</script>
+</body>
+</html>

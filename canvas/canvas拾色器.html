@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<title>canvas拾色器demo</title>
+
+<style type="text/css">
+
+</style>
+</head>
+
+<body>
+	<div class="canvasContainer">
+		<canvas id="canvas" width="400" height="400"></canvas>
+	</div>
+	<div class="color">
+		当前颜色：
+		<div id="showColor"></div>
+	</div>
+
+
+<script type="text/javascript">
+	var img = new Image();
+	img.src = '1.png';
+
+	var oc = document.getElementById('canvas');
+	var content = oc.getContext('2d');
+	img.onload = function(){
+		content.drawImage(img,0,0);
+	};
+
+	var color = document.getElementById('showColor');
+
+	function pick(event){
+		var x = event.layerX;
+		var y = event.layerY;
+		var pixels = content.getImageData(x,y,1,1);
+		var data = pixels.data;
+		var rgba = 'rgba('+data[0]+','+data[1]+','+data[2]+','+data[3]+')';
+		color.style.background = rgba;
+		color.innerHTML = rgba;
+	}
+
+	oc.addEventListener('mousemove',pick);
+
+</script>
+</body>
+</html>
