@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>canvas图片处理demo(灰度图/反转图)</title> 
+    <style type="text/css">
+        span{
+            display: inline-block;
+            margin-left: 30px;
+        }
+    </style>   
+</head>
+<body>
+    
+    <div id="canvasHolder">
+        <canvas id="canvas" width="500" height="300"></canvas>
+    </div>
+    <div>
+        <button id="grey">转化为灰度图</button>
+        <button id="invert">转化为反转图</button>
+    </div>
+
+  
+
+    <script type="text/javascript">
+
+        var Img = new Image();
+        Img.src = '1.png';
+        Img.onload = function(){
+            draw(this);
+        };
+
+        function draw(img){
+            var oc = document.getElementById('canvas');
+            var content = oc.getContext('2d');
+            content.drawImage(img,0,0);
+
+            //获得canvas中可操作的像素
+            var imageData = content.getImageData(0,0,oc.width,oc.height);
+            var data = imageData.data;
+
+            var greyPic = function(){
+                for(var i=0;i<data.length;i+=4){
+                    var avg = (data[i]+data[i+1]+data[i+2]) / 3;
+                    data[i] = avg; //r
+                    data[i+1] = avg; //g
+                    data[i+2] = avg; //b
+                }
+                content.putImageData(imageData,0,0);
+            };
+            //greyPic();
+
+            var invert = function(){
+                for(var i=0;i<data.length;i+=4){
+                    data[i] = 255 - data[i]; //r
+                    data[i+1] = 255 - data[i+1]; //g
+                    data[i+2] = 255- data[i+2]; //b
+                }
+                content.putImageData(imageData,0,0);
+            };
+            //invert();
+            var invertbtn = document.getElementById('invert');
+            invertbtn.addEventListener('click', invert);
+            var grayscalebtn = document.getElementById('grey');
+            grayscalebtn.addEventListener('click', greyPic);
+            
+        }
+
+
+    </script>
+</body>
+</html>
