@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<title>canvas放大镜效果demo</title>
+
+<style type="text/css">
+
+</style>
+</head>
+
+<body>
+
+<canvas id="canvas" width="400" height="400">
+	<span>不支持canvas的浏览器就会显示</span>
+</canvas>
+<div id="zoom"></div>
+<script type="text/javascript">
+	var img = new Image();
+	img.src = '1.png';
+	img.onload = function(){
+		draw(this);
+	};
+	function draw(img){
+		var oc = document.getElementById('canvas');
+		var content = oc.getContext('2d');
+		content.drawImage(img,0,0);
+
+		var zommctx = document.getElementById('zoom').getContext('2d');
+		zoomctx.imageSmoothingEnabled = true;
+	    zoomctx.mozImageSmoothingEnabled = true;
+	    zoomctx.webkitImageSmoothingEnabled = true;
+	    zoomctx.msImageSmoothingEnabled = true;
+
+	    var zoom = function(event){
+	    	var x = event.layerX;
+	    	var y = event.layerY;
+	    	zoomctx.drawImage(oc,Math.abs(x-5),Math.abs(y-5),10,10,0,0,200,200);
+	    };
+
+	    oc.addEventListener('mousemove',zoom);
+	}
+</script>
+</body>
+</html>
