@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<title>无缝切换demo</title>
+
+<style type="text/css">
+*{
+	margin: 0;
+	padding:0; 
+}
+li{
+	list-style: none;
+}
+#container{
+	width:650px;
+	height:210px;
+	border:1px solid #ccc;
+	position: relative;
+	margin:0 auto;
+	overflow: hidden;
+}
+#container ul{
+	position:absolute;
+	left: 0;
+}
+#container ul li{
+	width:210px;
+	height:200px;
+	margin-right: 10px;
+	float: left;
+}
+#input1{
+	display:block;
+	width:80px;
+	height:30px;
+}
+
+
+
+</style>
+</head>
+
+<body>
+	<input type="button" value="切换" id="input1"/>
+
+	<div id="container">
+		<ul id="album">
+			<li>1<img src="images/1.jpg"></li>
+			<li>2<img src="images/2.jpg"></li>
+			<li>3<img src="images/3.jpg"></li>
+			<li>4<img src="images/4.jpg"></li>
+			<li>5<img src="images/5.jpg"></li>
+		</ul>
+	</div>
+
+<script type="text/javascript">
+	window.onload = function(){
+		var inp = document.getElementById('input1');
+		var ul = document.getElementById('album');
+		var li = ul.getElementsByTagName('li');
+
+		//	根据li的个数动态算宽度
+		var oneSize = li[0].offsetWidth+10;
+		
+		var num = 1;
+
+		function getWidth(){
+			ul.style.width = li.length*oneSize+'px';
+		}
+		getWidth();
+		inp.onclick = function(){
+			for(var i=0;i<num;i++){
+				var oli = li[i].cloneNode(true);
+				ul.appendChild(oli);
+				getWidth();
+			}
+			ul.style.left = -num*oneSize+'px';
+
+			for(var i=0;i<num;i++){
+				ul.removeChild(li[0]);
+				ul.style.left = 0;
+			}
+
+		}
+	}
+
+
+</script>
+</body>
+</html>
