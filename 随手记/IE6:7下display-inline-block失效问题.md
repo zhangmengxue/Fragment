@@ -4,8 +4,8 @@
 
 ### 原因：
 
-1.inline元素的display属性设置为inline-block时,所有的浏览器都支持；
-2.block元素的display属性设置为inline－block时，ie6/7不支持；
+- 1.inline元素的display属性设置为inline-block时,所有的浏览器都支持；
+- 2.block元素的display属性设置为inline－block时，ie6/7不支持；
 
 ### 解决方法：
 
