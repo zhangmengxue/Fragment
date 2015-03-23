@@ -18,10 +18,14 @@ tags:
 随着2007年6月29日iPhone的上市，WebKit进入iPhone OS平台，经过Apple的定制，成为iPhone OS平台独一无二的排版引擎；
 
 - Android 
- 
+
+在旧版本的安卓中：
+
 熟悉Android系统和HTML编程的人可能都听说过Android提供的一个重要类android.webkit.WebView，它继承于View类，这是它同其它很多控件的相似之处。不同之处在于，它能够用来渲染网页。当前，WebView的实现是基于现有的缺省WebKit内核（Android缺省浏览器是基于WebView构建），它不同于chromium所使用的WebKit内核，虽然它们都叫WebKit.
 
-由此可见，表现不一致的根本原因是内核对页面的渲染机制不同，那么它们都叫WebKit，为什么还会有不一样的地方呢？
+但是，在最新的Android 4.4 Kitkat版本中，原本基于Android WebKit的WebView实现被换成基于Chromium的WebView实现.
+
+由此可见，虽然它们都叫WebKit，但是WebKit和WebKit也是不同的：
 
 读了这篇文章：[开发者需要了解的WebKit](http://www.infoq.com/cn/articles/webkit-for-developers) 你就会了解到了，同是WebKit它也有不同的Port,它们专注于不同的部分，每个WebKit port中有共享的部分，但是也有很大一部分功能是不会共享的，其中就包括JS引擎。
 
@@ -31,7 +35,7 @@ tags:
 
 作为一个前端儿，你肯定听过WebView这个词儿。我也听过，也好奇过，把我的网页放到手机上看就叫WebView啦？WebView到底是什么呢？
 
-其实WebView是类名：
+其实WebView是类名或者说它是一个API(在我看来)：
 
 - 在Android中，这是个继承于View类的类android.webkit.WebView，用来布局和渲染网页；
 - 在iOS中，这个类叫UIWebView,同样是应用程序的UI接口。
@@ -43,6 +47,10 @@ tags:
 
 ### Touch事件
 
+现在我们知道了手机跟手机不同，先知道着，我先从头看一下touch事件，再看看他在不同的手机和手机中会有什么问题。
+
+
+
 
 
 
@@ -52,6 +60,8 @@ tags:
 [开发者需要了解的WebKit](http://www.infoq.com/cn/articles/webkit-for-developers)  
 
 [理解Webkit和Chromium：基于Chromium内核的Android WebView](http://blog.csdn.net/milado_nju/article/details/8926720)  
+
+[理解WebKit和Chromium：Android 4.4 上的Chromium WebView](http://blog.csdn.net/milado_nju/article/details/17098399)
 
 [webkit百度百科](http://baike.baidu.com/view/1510583.htm)  
 
