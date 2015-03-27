@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset=utf-8>
+<title>Touch事件demo</title>
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="yes" name="apple-touch-fullscreen" />
+<meta content="telephone=no,email=no" name="format-detection" />
+</head>
+
+<style>
+  #drag{
+    width: 250px;
+    height: 150px;
+    background-color: #ccc;
+  }
+</style>
+
+<body>
+    <div id="drag"></div>
+
+    <script>
+      var div = document.getElementById('drag');
+      div.addEventListener('touchmove',function(event){
+        if(event.touches.length==1){
+          var touch = event.touches[0];
+          var style = touch.target.style;
+          style.position = 'absolute';
+          style.left = touch.pageX+'px';
+          style.top = touch.pageY+'px';
+        }
+      },false);
+
+    </script>
+</body>
+</html>

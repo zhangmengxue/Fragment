@@ -25,6 +25,8 @@ tags:
 
 但是，在最新的Android 4.4 Kitkat版本中，原本基于Android WebKit的WebView实现被换成基于Chromium的WebView实现.
 
+- 结论
+
 由此可见，虽然它们都叫WebKit，但是WebKit和WebKit也是不同的：
 
 读了这篇文章：[开发者需要了解的WebKit](http://www.infoq.com/cn/articles/webkit-for-developers) 你就会了解到了，同是WebKit它也有不同的Port,它们专注于不同的部分，每个WebKit port中有共享的部分，但是也有很大一部分功能是不会共享的，其中就包括JS引擎。
@@ -47,7 +49,92 @@ tags:
 
 ### Touch事件
 
-现在我们知道了手机跟手机不同，先知道着，我先从头看一下touch事件，再看看他在不同的手机和手机中会有什么问题。
+现在我们知道了手机跟手机不同，WebKit与WebKit的不同，先知道着，我先从头看一下touch事件，再看看他在不同的手机和手机中会有什么问题。
+
+Touch事件：
+touchstart:当一个手指放在屏幕上时触发；
+touchend:当一个手指从屏幕上移走的时候触发；
+touchmove:当一个手指已经在屏幕上并且在屏幕上移动时触发；
+touchcancel:如果太多个手指在屏幕上或一个其他动作发生时触发。
+
+Touch事件中事件对象的属性：
+touches: 它包含了每个手指当前touch屏幕的一系列信息；
+targetTouches: 像touches一样，但是提供当前手指的touch信息；
+changedTouches: 包含每一个手指的touch改变的信息。
+
+下面详细介绍下这三个属性:
+1.当你放下一个手指的时候，上面三个属性会提供相同的信息；
+2.当你放下第二个手指的时候,touches对象会包含两条信息，每个手指都有一个；targetTouches只有在第二根手指放在了同第一根手指相同的节点上的时候会包含两条信息（否则的话它只包含第二根手指的信息）；changedTouches只会包含跟第二根手指相关的信息.
+3.如果几乎同是两个手指触碰屏幕，在changedTouches中会有两个手指的信息。
+4.如果我们在屏幕上移动手指，唯一会改变的对象是changedTouches，它会包含我们移动的一个或两个手指的信息；
+5.如果抬起一个手指，它的信息会从touches和targetTouches对象中移除，但是在changedTouches会找到它的信息；
+6.当我们把最后一个手指从屏幕上移走，touches和targetTouches对象会为空了，但是changedTouches将会保留最后这跟手指的信息。
+
+touches对象中包含的每个手指的信息列表中也有下面这些我们在鼠标事件中熟悉的属性：
+
+identifier - 一个标识符，对于每个touch点（手指）是独一无二的；
+target -当前手指touch的dom节点；
+clientX/clientY -touch事件发生时相对视口(viewport)的坐标(包含滚动)
+screenX/screenY -相对于屏幕的坐标
+pageX/pageY -相对于整个文档的坐标
+
+[简单的touch事件实现的拖拽小demo]()
+
+### Touch事件相关tip
+
+- 检测设备是否为触摸屏设备：
+通常我们检测设备是否为触摸屏有两个方法，一个是通过UA还有一个就是特征检测：
+    var isTouch = !!ua.match(/AppleWebkit.*Mobile.*/) || 'ontouchstart' in document.documentElement;
+但是我前两天读了一篇非常好的文章。这样进行判断已经不再准确了。当笔记本为触摸屏的笔记本时.
+
+当前，我们可以通过W3C Interaction Media Features给出的方案来判断。
+
+W3C在Media Query Levle 4中增加了pointer类别的特征查询，pointer有三个条件选项：none、fine 和 coarse
+
+None，当前设备没有任何除键盘或触控板之外的输入方式
+Fine，当前设备使用了鼠标来操作
+Coarse, 表示当前设备至少支持触屏操作，也可能同时支持鼠标
+
+    // 既有触屏也有鼠标
+    matchMedia("(pointer:coarse)").matches &&  matchMedia("(pointer:fine)").matches
+    // 只是触屏
+    matchMedia("(pointer:coarse)").matches &&  !matchMedia("(pointer:fine)").matches
+    // 只是鼠标
+    !matchMedia("(pointer:coarse)").matches &&  matchMedia("(pointer:fine)").matches
+    // 没有任何一种
+    matchMedia("(pointer:none)").matches
+
+所以，比较稳妥的判断触摸屏的方法应该是这样的：
+
+    function isTouchScreen(){
+       if(window.matchMedia){
+          // W3C way
+          if(!matchMedia("(pointer:coarse)").matches && matchMedia("(pointer:fine)").matches){
+              return false
+          }
+          // Firefox way: https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Media_queries#-moz-touch-enabled
+          if(matchMedia("-moz-touch-enabled: 0").matches){
+              return false
+          }
+       }
+       if(window.ontouchstart != null){
+          return true
+       }
+    }
+
+- zepto中的tap事件
+
+[zepto touch事件源码](https://github.com/madrobby/zepto/blob/master/src/touch.js)
+
+地球人都知道zepto封装的Touch事件都绑在了document上。于是问题接踵而至。
+
+tap点击穿透发生的条件：
+1.两个DOM节点一个在上一个在下；
+2.两个节点是父与子的关系；
+3.同时绑定了tap事件；
+4.如果下层元素是input元素的话,会触发input元素获得焦点(这时阻止冒泡，阻止浏览器的默认行为也有可能不同)。
+
+
 
 
 
@@ -76,3 +163,5 @@ tags:
 [android vs iPhone-touch Events](http://mattiacci.com/2010/11/18/android-vs-iphone-touch-events/)
 
 [Touching and Gesturing on iPhone,Android and more](https://www.sitepen.com/blog/2011/12/07/touching-and-gesturing-on-iphone-android-and-more/)
+
+[关于交互模式的媒体查询](http://dev.w3.org/csswg/mediaqueries-4/#mf-interaction)
