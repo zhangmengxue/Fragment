@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+
+<style>
+     .A, .B {
+          border: 1px solid #CCC;
+          background: #EFEFEF;
+          margin-bottom: 60px;
+          line-height: 300px;
+          text-align: center;
+          font-size: 40px;
+     }
+     .A {
+          height: 1000px;
+     }
+     .B {
+          background: yellow;
+          height: 300px;
+     }
+</style>
+
+<div id="wrap">
+     <div class="A">撑高用的</div>
+     <div class="B">懒加载</div>
+     <div class="B">懒加载</div>
+     <div class="B">懒加载</div>
+     <div class="B">懒加载</div>
+     <div class="B">懒加载</div>
+</div>
+
+<script src="http://code.jquery.com/jquery-1.8.2.js"></script>
+<script>
+     var $lazyModules = $(".B");
+     $(window).on("scroll", function(){
+          var sTop = $(this).scrollTop();
+          var wH = $(this).height();
+          $lazyModules.each(function(index, item){
+               var $item = $(item);
+               if(!$item.hasClass("loaded") && ($item.offset().top) < wH + sTop){
+                    $item.addClass("loaded").hide().fadeIn(1000);
+               }
+          });
+          if($(".loaded").length == $lazyModules.length){
+               $(window).off("scroll");
+          }
+     }).trigger("scroll");
+</script>
