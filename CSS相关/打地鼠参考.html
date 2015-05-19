@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+    <title>打呀打地鼠</title>
+    <style type="text/css">
+        * {
+          margin: 0;
+          padding: 0;
+          -moz-box-sizing: border-box;
+               box-sizing: border-box;
+        }
+        html,
+        body {
+          height: 100%;
+        }
+        body {
+          background: #000;
+          font-family: sans-serif;
+        }
+        .window {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          background: #000;
+          z-index: 999;
+          -webkit-transition: opacity 0.6s;
+                  transition: opacity 0.6s;
+        }
+        .window h1,
+        .window h2,
+        .window p {
+          color: #fff;
+          text-align: center;
+        }
+        .window h2 {
+          margin-top: 100px;
+          margin-bottom: 10px;
+        }
+        .window .meta {
+          margin-top: 50px;
+          opacity: 0.6;
+        }
+        .window h1 {
+          line-height: 50px;
+        }
+        .window .btn-group {
+          margin: 80px auto;
+          width: 100px;
+          height: 90px;
+          overflow: hidden;
+          position: relative;
+        }
+        .window .gopher {
+          position: relative;
+          top: 6px;
+          left: 0;
+          margin: 0 auto;
+        }
+        .window label {
+          display: block;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 40px;
+          background: #51a70d;
+          color: #fff;
+          text-align: center;
+          line-height: 40px;
+          cursor: pointer;
+          border-bottom: 4px solid #62b210;
+          border-radius: 4px;
+          -webkit-user-select: none;
+             -moz-user-select: none;
+              -ms-user-select: none;
+                  user-select: none;
+        }
+        #end {
+          opacity: 0;
+          pointer-events: none;
+          -webkit-pointer-events: none;
+        }
+        #startFlag {
+          position: absolute;
+          top: -10px;
+          left: -10px;
+        }
+        #startFlag:checked + #start {
+          opacity: 0;
+          pointer-events: none;
+          -webkit-pointer-events: none;
+        }
+        #container {
+          background: -webkit-linear-gradient(top, #8adcf7 0%, #bbe8fd 100%);
+          background: linear-gradient(to bottom, #8adcf7 0%, #bbe8fd 100%);
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          margin-left: -300px;
+          margin-top: -300px;
+          width: 600px;
+          height: 600px;
+          border: 1px solid #000;
+          overflow: hidden;
+        }
+        #map {
+          position: absolute;
+          bottom: 0;
+          left: -600px;
+          width: 1800px;
+          height: 800px;
+          -webkit-transform: perspective(600px) rotateX(45deg);
+                  transform: perspective(600px) rotateX(45deg);
+          -webkit-transform-origin: center bottom;
+              -ms-transform-origin: center bottom;
+                  transform-origin: center bottom;
+        }
+        .map {
+          width: 5%;
+          height: 100%;
+          float: left;
+        }
+        .map:nth-child(even) {
+          background: #62b210;
+        }
+        .map:nth-child(odd) {
+          background: #51a70d;
+        }
+        .hole {
+          position: absolute;
+          left: 0;
+          top: 70px;
+          width: 68px;
+          height: 100px;
+          background-image: -webkit-linear-gradient(left, #2a7d2f 0%, #78fc73 25%, #78fc73 35%, #113e15 95%);
+          background-image: linear-gradient(to right, #2a7d2f 0%, #78fc73 25%, #78fc73 35%, #113e15 95%);
+          border-left: 1px solid #236d22;
+          box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.6);
+        }
+        .hole:before {
+          display: block;
+          content: '';
+          position: absolute;
+          width: 84px;
+          height: 24px;
+          margin-left: -8px;
+          top: -24px;
+          background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 1px, rgba(255, 255, 255, 0.3) 2px, rgba(255, 255, 255, 0.3) 3px, rgba(255, 255, 255, 0) 4px), -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.4) 3px, rgba(255, 255, 255, 0.2) 5px, rgba(255, 255, 255, 0) 6px), -webkit-linear-gradient(left, #2a7d2f 0%, #78fc73 25%, #78fc73 35%, #113e15 95%);
+          background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 1px, rgba(255, 255, 255, 0.3) 2px, rgba(255, 255, 255, 0.3) 3px, rgba(255, 255, 255, 0) 4px), linear-gradient(to top, rgba(0, 0, 0, 0.4) 3px, rgba(255, 255, 255, 0.2) 5px, rgba(255, 255, 255, 0) 6px), linear-gradient(to right, #2a7d2f 0%, #78fc73 25%, #78fc73 35%, #113e15 95%);
+          border-radius: 2px;
+        }
+        .gopher {
+          z-index: 0;
+          position: absolute;
+          display: block;
+          top: 70px;
+          left: 7px;
+          width: 56px;
+          height: 100px;
+          border-radius: 20px;
+          background: #e3c498;
+          background-image: -webkit-radial-gradient(20px 23px, circle, #000000 5%, rgba(255, 255, 255, 0) 5%), -webkit-radial-gradient(17px 20px, circle, #ffffff 10%, rgba(255, 255, 255, 0) 10%), -webkit-radial-gradient(40px 23px, circle, #000000 5%, rgba(255, 255, 255, 0) 5%), -webkit-radial-gradient(43px 20px, circle, #ffffff 10%, rgba(255, 255, 255, 0) 10%), -webkit-radial-gradient(center 36px, circle, #000000 8%, rgba(255, 255, 255, 0) 8%), -webkit-radial-gradient(center 48px, circle, #ffffff 20%, rgba(255, 255, 255, 0) 20%);
+          background-image: radial-gradient(circle at 20px 23px, #000000 5%, rgba(255, 255, 255, 0) 5%), radial-gradient(circle at 17px 20px, #ffffff 10%, rgba(255, 255, 255, 0) 10%), radial-gradient(circle at 40px 23px, #000000 5%, rgba(255, 255, 255, 0) 5%), radial-gradient(circle at 43px 20px, #ffffff 10%, rgba(255, 255, 255, 0) 10%), radial-gradient(circle at center 36px, #000000 8%, rgba(255, 255, 255, 0) 8%), radial-gradient(circle at center 48px, #ffffff 20%, rgba(255, 255, 255, 0) 20%);
+          -webkit-appearance: button;
+          -moz-apperance: button;
+          appearance: button;
+          cursor: pointer;
+          border: none;
+          outline: none;
+          -webkit-animation-iteration-count: infinite;
+                  animation-iteration-count: infinite;
+        }
+        .gopher:before,
+        .gopher:after {
+          z-index: -1;
+          content: '';
+          left: -5px;
+          top: -5px;
+          width: 20px;
+          height: 20px;
+          position: absolute;
+          background: #e3c498;
+          border-radius: 50%;
+          background-image: -webkit-radial-gradient(center, circle, #000000 40%, rgba(255, 255, 255, 0) 40%);
+          background-image: radial-gradient(circle at center, #000000 40%, rgba(255, 255, 255, 0) 40%);
+        }
+        .gopher:after {
+          left: auto;
+          right: -5px;
+        }
+        .gopher--not-button {
+          -webkit-appearance: none;
+          -moz-apperance: none;
+          appearance: none;
+        }
+        .group {
+          position: absolute;
+          z-index: 1;
+        }
+        .group:nth-child(1) {
+          left: 45px;
+          top: 210px;
+        }
+        .group:nth-child(2) {
+          left: 165px;
+          top: 270px;
+        }
+        .group:nth-child(3) {
+          left: 345px;
+          top: 250px;
+        }
+        .group:nth-child(4) {
+          left: 80px;
+          top: 370px;
+        }
+        .group:nth-child(5) {
+          left: 400px;
+          top: 410px;
+        }
+        .group:nth-child(6) {
+          left: 470px;
+          top: 230px;
+        }
+        .gopher:checked {
+          -webkit-animation-name: none;
+                  animation-name: none;
+          pointer-events: none;
+          -webkit-pointer-events: none;
+          opacity: 0;
+          overflow: hidden;
+        }
+        .gopher1 {
+          -webkit-animation-name: gopher1;
+                  animation-name: gopher1;
+          -webkit-animation-delay: 2s;
+                  animation-delay: 2s;
+          -webkit-animation-duration: 10s;
+                  animation-duration: 10s;
+        }
+        @-webkit-keyframes gopher1 {
+          0% {
+            top: 70px;
+          }
+          10% {
+            top: 0;
+          }
+          15% {
+            top: 0;
+          }
+          20% {
+            top: 70px;
+          }
+          100% {
+            top: 70px;
+          }
+        }
+        @keyframes gopher1 {
+          0% {
+            top: 70px;
+          }
+          10% {
+            top: 0;
+          }
+          15% {
+            top: 0;
+          }
+          20% {
+            top: 70px;
+          }
+          100% {
+            top: 70px;
+          }
+        }
+        .gopher2 {
+          -webkit-animation-name: gopher2;
+                  animation-name: gopher2;
+          -webkit-animation-delay: 2s;
+                  animation-delay: 2s;
+          -webkit-animation-duration: 10s;
+                  animation-duration: 10s;
+        }
+        @-webkit-keyframes gopher2 {
+          0% {
+            top: 70px;
+          }
+          30% {
+            top: 70px;
+          }
+          60% {
+            top: 0;
+          }
+          70% {
+            top: 0;
+          }
+          90% {
+            top: 0;
+          }
+        }
+        @keyframes gopher2 {
+          0% {
+            top: 70px;
+          }
+          30% {
+            top: 70px;
+          }
+          60% {
+            top: 0;
+          }
+          70% {
+            top: 0;
+          }
+          90% {
+            top: 0;
+          }
+        }
+        .gopher3 {
+          -webkit-animation-name: gopher3;
+                  animation-name: gopher3;
+          -webkit-animation-delay: 0s;
+                  animation-delay: 0s;
+          -webkit-animation-duration: 5s;
+                  animation-duration: 5s;
+        }
+        @-webkit-keyframes gopher3 {
+          0% {
+            top: 70px;
+          }
+          30% {
+            top: 70px;
+          }
+          60% {
+            top: 0;
+          }
+          70% {
+            top: 0;
+          }
+          90% {
+            top: 70px;
+          }
+        }
+        @keyframes gopher3 {
+          0% {
+            top: 70px;
+          }
+          30% {
+            top: 70px;
+          }
+          60% {
+            top: 0;
+          }
+          70% {
+            top: 0;
+          }
+          90% {
+            top: 70px;
+          }
+        }
+        .gopher4 {
+          -webkit-animation-name: gopher4;
+                  animation-name: gopher4;
+          -webkit-animation-delay: 2s;
+                  animation-delay: 2s;
+          -webkit-animation-duration: 8s;
+                  animation-duration: 8s;
+        }
+        @-webkit-keyframes gopher4 {
+          0% {
+            top: 70px;
+          }
+          10% {
+            top: 70px;
+          }
+          15% {
+            top: 0;
+          }
+          30% {
+            top: 70px;
+          }
+        }
+        @keyframes gopher4 {
+          0% {
+            top: 70px;
+          }
+          10% {
+            top: 70px;
+          }
+          15% {
+            top: 0;
+          }
+          30% {
+            top: 70px;
+          }
+        }
+        .gopher5 {
+          -webkit-animation-name: gopher5;
+                  animation-name: gopher5;
+          -webkit-animation-delay: 0s;
+                  animation-delay: 0s;
+          -webkit-animation-duration: 10s;
+                  animation-duration: 10s;
+        }
+        @-webkit-keyframes gopher5 {
+          0% {
+            top: 70px;
+          }
+          70% {
+            top: 70px;
+          }
+          80% {
+            top: 0;
+          }
+          90% {
+            top: 70px;
+          }
+        }
+        @keyframes gopher5 {
+          0% {
+            top: 70px;
+          }
+          70% {
+            top: 70px;
+          }
+          80% {
+            top: 0;
+          }
+          90% {
+            top: 70px;
+          }
+        }
+        .gopher6 {
+          -webkit-animation-name: gopher6;
+                  animation-name: gopher6;
+          -webkit-animation-delay: 4s;
+                  animation-delay: 4s;
+          -webkit-animation-duration: 6s;
+                  animation-duration: 6s;
+        }
+        @-webkit-keyframes gopher6 {
+          0% {
+            top: 70px;
+          }
+          70% {
+            top: 70px;
+          }
+          90% {
+            top: 0;
+          }
+          100% {
+            top: 70px;
+          }
+        }
+        @keyframes gopher6 {
+          0% {
+            top: 70px;
+          }
+          70% {
+            top: 70px;
+          }
+          90% {
+            top: 0;
+          }
+          100% {
+            top: 70px;
+          }
+        }
+        .gopher7 {
+          -webkit-animation-name: gopher7;
+                  animation-name: gopher7;
+          -webkit-animation-delay: 2s;
+                  animation-delay: 2s;
+          -webkit-animation-duration: 6s;
+                  animation-duration: 6s;
+        }
+        @-webkit-keyframes gopher7 {
+          0% {
+            top: 70px;
+          }
+          20% {
+            top: 70px;
+          }
+          25% {
+            top: 0;
+          }
+          35% {
+            top: 70px;
+          }
+        }
+        @keyframes gopher7 {
+          0% {
+            top: 70px;
+          }
+          20% {
+            top: 70px;
+          }
+          25% {
+            top: 0;
+          }
+          35% {
+            top: 70px;
+          }
+        }
+        .gopher8 {
+          -webkit-animation-name: gopher8;
+                  animation-name: gopher8;
+          -webkit-animation-delay: 0s;
+                  animation-delay: 0s;
+          -webkit-animation-duration: 8s;
+                  animation-duration: 8s;
+        }
+        @-webkit-keyframes gopher8 {
+          0% {
+            top: 70px;
+          }
+          50% {
+            top: 70px;
+          }
+          60% {
+            top: 0;
+          }
+          70% {
+            top: 70px;
+          }
+        }
+        @keyframes gopher8 {
+          0% {
+            top: 70px;
+          }
+          50% {
+            top: 70px;
+          }
+          60% {
+            top: 0;
+          }
+          70% {
+            top: 70px;
+          }
+        }
+        .gopher9 {
+          -webkit-animation-name: gopher9;
+                  animation-name: gopher9;
+          -webkit-animation-delay: 0s;
+                  animation-delay: 0s;
+          -webkit-animation-duration: 10s;
+                  animation-duration: 10s;
+        }
+        @-webkit-keyframes gopher9 {
+          0% {
+            top: 70px;
+          }
+          10% {
+            top: 70px;
+          }
+          20% {
+            top: 0;
+          }
+          40% {
+            top: 70px;
+          }
+        }
+        @keyframes gopher9 {
+          0% {
+            top: 70px;
+          }
+          10% {
+            top: 70px;
+          }
+          20% {
+            top: 0;
+          }
+          40% {
+            top: 70px;
+          }
+        }
+        .gopher10 {
+          -webkit-animation-name: gopher10;
+                  animation-name: gopher10;
+          -webkit-animation-delay: 2s;
+                  animation-delay: 2s;
+          -webkit-animation-duration: 8s;
+                  animation-duration: 8s;
+        }
+        @-webkit-keyframes gopher10 {
+          0% {
+            top: 70px;
+          }
+          40% {
+            top: 70px;
+          }
+          55% {
+            top: 0;
+          }
+          65% {
+            top: 70px;
+          }
+        }
+        @keyframes gopher10 {
+          0% {
+            top: 70px;
+          }
+          40% {
+            top: 70px;
+          }
+          55% {
+            top: 0;
+          }
+          65% {
+            top: 70px;
+          }
+        }
+        .gopher11 {
+          -webkit-animation-name: gopher11;
+                  animation-name: gopher11;
+          -webkit-animation-delay: 0s;
+                  animation-delay: 0s;
+          -webkit-animation-duration: 10s;
+                  animation-duration: 10s;
+        }
+        @-webkit-keyframes gopher11 {
+          0% {
+            top: 70px;
+          }
+          40% {
+            top: 70px;
+          }
+          50% {
+            top: 0;
+          }
+          60% {
+            top: 70px;
+          }
+        }
+        @keyframes gopher11 {
+          0% {
+            top: 70px;
+          }
+          40% {
+            top: 70px;
+          }
+          50% {
+            top: 0;
+          }
+          60% {
+            top: 70px;
+          }
+        }
+        .gopher12 {
+          -webkit-animation-name: gopher12;
+                  animation-name: gopher12;
+          -webkit-animation-delay: 3s;
+                  animation-delay: 3s;
+          -webkit-animation-duration: 6s;
+                  animation-duration: 6s;
+        }
+        @-webkit-keyframes gopher12 {
+          0% {
+            top: 70px;
+          }
+          30% {
+            top: 70px;
+          }
+          50% {
+            top: 0;
+          }
+          55% {
+            top: 70px;
+          }
+        }
+        @keyframes gopher12 {
+          0% {
+            top: 70px;
+          }
+          30% {
+            top: 70px;
+          }
+          50% {
+            top: 0;
+          }
+          55% {
+            top: 70px;
+          }
+        }
+        #startFlag:checked ~ .points {
+          top: 20px;
+        }
+        .points {
+          -webkit-transition: top 1s;
+                  transition: top 1s;
+          position: absolute;
+          -webkit-user-select: none;
+             -moz-user-select: none;
+              -ms-user-select: none;
+                  user-select: none;
+          top: -100px;
+          left: 50%;
+          width: 100px;
+          height: 48px;
+          margin-left: -50px;
+          background: rgba(0, 0, 0, 0.2);
+          border: 4px solid #ffffff;
+          border-radius: 4px;
+          color: #fff;
+        }
+        .points .points-viewport {
+          overflow: hidden;
+          height: 40px;
+          width: 100%;
+        }
+        .points .points-list {
+          position: relative;
+          top: -480px;
+        }
+        .points input {
+          display: block;
+          height: 40px;
+          -webkit-transition: 1s;
+                  transition: 1s;
+        }
+        .points input:checked {
+          height: 0;
+        }
+        .points ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+        }
+        .points li {
+          display: block;
+          height: 40px;
+          text-align: center;
+          font-size: 30px;
+          font-weight: bold;
+          cursor: default;
+        }
+        .time-wrapper {
+          position: absolute;
+          left: -150px;
+          top: 20px;
+          -webkit-transition: 1s;
+                  transition: 1s;
+        }
+        .time-wrapper p {
+          color: #fff;
+          line-height: 24px;
+        }
+        .time {
+          border: 2px solid #fff;
+          width: 140px;
+          height: 20px;
+        }
+        .time .progress {
+          height: 16px;
+          width: 0;
+        }
+        #startFlag:checked ~ .time-wrapper .progress {
+          -webkit-animation: progress 15s linear 0s forwards;
+                  animation: progress 15s linear 0s forwards;
+        }
+        #startFlag:checked ~ #end {
+          -webkit-animation: end 16s linear 0s forwards;
+                  animation: end 16s linear 0s forwards;
+        }
+        #startFlag:checked ~ .time-wrapper {
+          left: 20px;
+        }
+        @-webkit-keyframes progress {
+          from {
+            width: 0;
+            background: #00ff00;
+          }
+          to {
+            width: 136px;
+            background: #ff0000;
+          }
+        }
+        @keyframes progress {
+          from {
+            width: 0;
+            background: #00ff00;
+          }
+          to {
+            width: 136px;
+            background: #ff0000;
+          }
+        }
+        #end {
+          top: -800px;
+          opacity: 1;
+          display: block;
+          border-bottom: 2px solid #fff;
+        }
+        #end .gopher {
+          position: absolute;
+          left: 50%;
+          top: auto;
+          margin-left: -30px;
+          bottom: -54px;
+        }
+        @-webkit-keyframes end {
+          from {
+            top: -800px;
+          }
+          95% {
+            top: -800px;
+          }
+          to {
+            top: 0;
+          }
+        }
+        @keyframes end {
+          from {
+            top: -800px;
+          }
+          95% {
+            top: -800px;
+          }
+          to {
+            top: 0;
+          }
+        }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <input id="startFlag" type="checkbox">
+      <div id="start" class="window">
+        <h1>打呀打地鼠</h1>
+        <p>不许笑，一个严肃的 CSS 游戏</p>
+        <div class="btn-group">
+          <div class="gopher gopher--not-button"></div>
+          <label for="startFlag">开始</label>
+        </div>
+      </div>
+      <div id="end" class="window">
+        <h2>Game Over</h2>
+        <p>壮士欢迎从头再来</p>
+        <p class="meta">按 F5/Command R 重来</p>
+        <div class="gopher gopher--not-button"></div>
+      </div>
+      <div class="time-wrapper">
+        <p>游戏时间：</p>
+        <div class="time">
+          <div class="progress"></div>
+        </div>
+      </div>
+      <div id="map">
+        <div class="map"></div>
+        <div class="map"></div>
+        <div class="map"></div>
+        <div class="map"></div>
+        <div class="map"></div>
+        <div class="map"></div>
+        <div class="map"></div>
+        <div class="map"></div>
+        <div class="map"></div>
+        <div class="map"></div>
+        <div class="map"></div>
+        <div class="map"></div>
+        <div class="map"></div>
+        <div class="map"></div>
+        <div class="map"></div>
+        <div class="map"></div>
+        <div class="map"></div>
+        <div class="map"></div>
+        <div class="map"></div>
+      </div>
+      <div class="holes">
+        <div class="group">
+          <input type="radio" name="target1" class="gopher gopher1">
+          <input type="radio" name="target2" class="gopher gopher2">
+          <div class="hole"></div>
+        </div>
+        <div class="group">
+          <input type="radio" name="target3" class="gopher gopher3">
+          <div class="hole"></div>
+        </div>
+        <div class="group">
+          <input type="radio" name="target4" class="gopher gopher4">
+          <input type="radio" name="target5" class="gopher gopher5">
+          <input type="radio" name="target6" class="gopher gopher6">
+          <div class="hole"></div>
+        </div>
+        <div class="group">
+          <input type="radio" name="target7" class="gopher gopher7">
+          <input type="radio" name="target8" class="gopher gopher8">
+          <div class="hole"></div>
+        </div>
+        <div class="group">
+          <input type="radio" name="target9" class="gopher gopher9">
+          <input type="radio" name="target10" class="gopher gopher10">
+          <div class="hole"></div>
+        </div>
+        <div class="group">
+          <input type="radio" name="target11" class="gopher gopher11">
+          <input type="radio" name="target12" class="gopher gopher12">
+          <div class="hole"></div>
+        </div>
+      </div>
+      <div class="points">
+        <div class="points-viewport">
+          <div class="points-list">
+            <input type="radio" checked name="target1">
+            <input type="radio" checked name="target2">
+            <input type="radio" checked name="target3">
+            <input type="radio" checked name="target4">
+            <input type="radio" checked name="target5">
+            <input type="radio" checked name="target6">
+            <input type="radio" checked name="target7">
+            <input type="radio" checked name="target8">
+            <input type="radio" checked name="target9">
+            <input type="radio" checked name="target10">
+            <input type="radio" checked name="target11">
+            <input type="radio" checked name="target12">
+            <ul class="points-value">
+              <li>12</li>
+              <li>11</li>
+              <li>10</li>
+              <li>9</li>
+              <li>8</li>
+              <li>7</li>
+              <li>6</li>
+              <li>5</li>
+              <li>4</li>
+              <li>3</li>
+              <li>2</li>
+              <li>1</li>
+              <li>0</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
