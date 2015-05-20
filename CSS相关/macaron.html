@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>绘制马卡龙</title>  
+    <style type="text/css">
+        body{
+            width: 400px;
+            height: 400px;
+            margin: 200px auto;
+        }
+        #macaron:before{
+            position: absolute;
+            left: 0;
+            top: 26px;
+            content: '';
+            width: 110px;
+            height: 20px;
+            border-radius: 6px;
+            border-bottom-left-radius: 80px 20px;
+            border-bottom-right-radius: 80px 20px;
+            box-shadow: 0 -20px 0 #ccc;
+        }
+        #macaron:after{
+            position: absolute;
+            left: 0;
+            top: 2px;
+            content: '';
+            width: 110px;
+            height: 20px;
+            border-radius: 6px;
+            border-top-left-radius: 80px 20px;
+            border-top-right-radius: 80px 20px;
+            box-shadow: 0 -20px 0 #ccc;
+        }
+        /*box-shadow:inset(不设置默认外阴影/inset内阴影) x-offset(水平-正，阴影在右边-负，阴影在左边) y-offset(垂直，正-阴影在底部，负-阴影在顶部) blur-radius(模糊半径) spread-radius(扩散半径) color(颜色)*/
+        #macaron{
+            width: 110px;
+            height: 10px;
+            position: relative;
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div id="macaron"></div>
+</body>
+</html>
+
