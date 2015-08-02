@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset=utf-8>
+<title>可改变大小的正方形demo</title>
+<style>
+  .edit{
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border:1px solid #000;
+    cursor: move;
+  }
+  .atop,.abottom,.aleft,.aright{
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border:1px solid #000;
+    background: #fff;
+  }
+  .atop{
+    left: 50%;
+    top: -4px;
+    margin-left: -2.5px;
+    cursor: ns-resize;
+  }
+  .abottom{
+    left: 50%;
+    bottom: -4px;
+    margin-left: -2.5px;
+    cursor: ns-resize;
+  }
+  .aleft{
+    top: 50%;
+    left: -4px;
+    margin-top: -2.5px;
+    cursor: ew-resize;
+  }
+  .aright{
+    top: 50%;
+    right: -4px;
+    margin-top: -2.5px;
+    cursor: ew-resize;
+  }
+
+</style>
+<script type="text/javascript" src="https://g.alicdn.com/kissy/k/1.4.8/seed-min.js"></script>
+</head>
+<body>
+    <div class="edit">
+      <i class="atop"></i>
+      <i class="abottom"></i>
+      <i class="aleft"></i>
+      <i class="aright"></i>
+    </div>
+    <script>
+    KISSY.use(['node','event'],function(S,Node,Event){
+      var $ = Node.all;
+      //移动方块(移动后事件需要绑定在document上，因为例子中的dom元素使用了绝对定位，不能绑定在body上，不然会出问题)
+      var $obj = $('.edit');
+      $obj.on('mousedown',function(e){
+        var sX = (e.pageX || e.clientX) - parseInt($obj.offset().left),
+            sY = (e.pageY || e.clientY) - parseInt($obj.offset().top);
+
+        $(document).on('mousemove',function(e){
+
+              $(document).on('mouseup mouseleave',function(e){
+                Event.detach($(document),'mouseup mouseleave mousemove');
+              });
+
+             var left = (e.pageX || e.clientX) - sX + 'px',
+                 right = (e.pageY || e.clientY) -sY + 'px';
+
+             $obj.css('left',left);
+             $obj.css('top',right);
+        });
+      });
+
+      //更改方块大小
+      $right = $('.aright');
+      var width = parseInt($obj.css('width'));
+      $right.on('mousedown',function(e){
+         e.halt();
+         var lX = (e.pageX || e.clientX);
+         console.log('rightdown');
+         $(document).on('mousemove',function(e){
+
+            var right = (e.pageX || e.clientX) - lX;
+            lX = (e.pageX || e.clientX);
+
+            width = width + right;
+            $obj.css('width',width+'px');
+
+            $(document).on('mouseup',function(e){
+              $(document).detach('mouseup mousemove');
+            });
+        });
+      });
+
+      $left = $('.aleft');
+      var width = parseInt($obj.css('width'));
+      $left.on('mousedown',function(e){
+         e.halt();
+         var lX = (e.pageX || e.clientX);
+         var originLeft = $left.offset().left;
+
+         $(document).on('mousemove',function(e){
+
+            var left = (e.pageX || e.clientX) - lX;
+            lX = (e.pageX || e.clientX);
+            $obj.css('left', lX + 'px');
+
+            width = width - left;
+            $obj.css('width',width +'px');
+
+            $(document).on('mouseup',function(e){
+              $(document).detach('mouseup mousemove');
+            });
+        });
+      });
+
+      $bottom = $('.abottom');
+      var height = parseInt($obj.css('height'));
+      $bottom.on('mousedown',function(e){
+         e.halt();
+         var lY = (e.pageY || e.clientY);
+         console.log('bottomdown');
+         $(document).on('mousemove',function(e){
+
+            var bottom = (e.pageY || e.clientY) - lY;
+            lY = (e.pageY || e.clientY);
+
+            height = height + bottom;
+            $obj.css('height',height+'px');
+
+            $(document).on('mouseup',function(e){
+              $(document).detach('mouseup mousemove');
+            });
+        });
+      });
+
+      $top = $('.atop');
+      var height = parseInt($obj.css('height'));
+      $top.on('mousedown',function(e){
+         e.halt();
+         var lY = (e.pageY || e.clientY);
+         var origintop = $top.offset().top;
+
+         $(document).on('mousemove',function(e){
+
+            var top = (e.pageY || e.clientY) - lY;
+            lY = (e.pageY || e.clientY);
+            $obj.css('top', lY + 'px');
+
+            height = height - top;
+            $obj.css('height',height +'px');
+
+            $(document).on('mouseup',function(e){
+              $(document).detach('mouseup mousemove');
+            });
+        });
+      });
+
+    });
+
+    </script>
+</body>
+</html>

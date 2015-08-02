@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset=utf-8>
+<title>slider组件demo</title>
+<style>
+  ul{
+    margin: 0;
+    padding: 0;
+  }
+  .container{
+    height: 210px;
+    width: 220px;
+    position: relative;
+    border:1px solid #000;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+  ul{
+    height: 220px;
+    position: absolute;
+    left: 0;
+    border:1px solid red;
+  }
+  li{
+    position: relative;
+    float: left;
+    display: inline-block;
+    width: 220px;
+  }
+  button{
+    display: block;
+    margin: 50px auto;
+    width: 100px;
+    height: 30px;
+  }
+
+</style>
+<script type="text/javascript" src="https://g.alicdn.com/kissy/k/1.4.8/seed-min.js"></script>
+</head>
+<body>
+    <div class="container">
+      <ul>
+        <li><img src="images/1.jpg"></li>
+        <li><img src="images/2.jpg"></li>
+        <li><img src="images/3.jpg"></li>
+        <li><img src="images/4.jpg"></li>
+        <li><img src="images/5.jpg"></li>
+        <li><img src="images/6.jpg"></li>
+      </ul>
+    </div>
+    <button class="prev">向前</button>
+    <button class="next">向后</button>
+    <script>
+    KISSY.use(['node','anim'],function(S,Node,Anim){
+      var $ = Node.all;
+      function slide(){}
+      slide.prototype = {
+        init:function(){
+          var self = this;
+          var len = $('li').length;
+          var first = $('li').item(len-1).clone(true);
+          var last = $('li').item(0).clone(true);
+          $(last).insertAfter($('li').item(len-1));
+          $(first).insertBefore($('li').item(0));
+          var liwidth = parseInt($($('li')[0]).css('width'));
+          var left = liwidth;
+          var ulwidth = liwidth*(len+2);
+          $('ul').css('width',ulwidth);
+          // 设置到第一帧
+          self.setleft(left);
+          // 绑定事件
+          // bindEvent
+          self.goprev(liwidth,len);
+          self.gonext(liwidth,len);
+        },
+        gonext:function(liwidth,len){
+          var self = this;
+          $('.next').on('click',function(e){
+           // self.animslide(liwidth);
+           var left = parseInt($('ul').css('left'));
+           console.log('next'+left);
+           left -= liwidth;
+            self.setleftWithAnim(left,function(){
+              if($('ul').css('left') == '-'+ ((len+1)*liwidth)+'px'){
+                left = liwidth;
+                var leftStr = '-' + left;
+                console.log('next111'+leftStr);
+                $('ul').css('left',leftStr);
+                // left += liwidth;
+                // self.setleft(left);
+              }
+            });
+          });
+        },
+        goprev:function(liwidth,len){
+          var self = this;
+          $('.prev').on('click',function(e){
+            //self.animslide(liwidth);
+            var left = parseInt($('ul').css('left'));
+            left += liwidth;
+            console.log(left);
+              self.setleftWithAnim(left, function(){
+                if($('ul').css('left') == '0px'){
+                  left = liwidth*len;
+                  var leftStr = '-' + left;
+                  console.log(leftStr);
+                  $('ul').css('left',leftStr);
+                  // left -= liwidth;
+                  // self.setleft(left);
+                }
+              });
+          });
+        },
+        setleftWithAnim:function(left, cb){
+          var leftStr = '' + left;
+          //$('ul').css('left',leftStr);
+          new Anim($('ul'),{
+              left : leftStr
+            }, 1, "ease", cb).run();
+          // $('ul').css('left',leftStr);
+        },
+        setleft:function(left){
+          var leftStr = '-' + left;
+          $('ul').css('left',leftStr);
+        }
+      }
+
+      var islide = new slide();
+      islide.init();
+    });
+    </script>
+</body>
+</html>
