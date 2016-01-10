@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset=utf-8>
+<title>Twitter Heart Demo</title>
+<script src="js/jquery-1.11.1.js" type="text/javascript"charset="utf-8"></script>
+</head>
+<style>
+.heart {
+   cursor: pointer;
+   height: 50px;
+   width: 50px;
+   background-image:url('./images/web_heart_animation.png');
+   background-position: left;
+   background-repeat:no-repeat;
+   background-size:2900%;
+}
+
+.is_animating {
+  -webkit-animation: heart-burst .8s steps(28) 1;
+  animation: heart-burst .8s steps(28) 1;
+}
+
+.heart:hover{
+  background-position: right;
+}
+
+@keyframes heart-burst {
+  from {background-position:left;}
+  to { background-position:right;}
+}
+
+</style>
+
+<body>
+  <div class="heart"></div>
+  <script>
+    $('.heart').on('click', function(){
+      $(this).toggleClass('is_animating');
+    });
+    $('.heart').on('animationend', function(){
+      $(this).toggleClass('is_animating');
+    });
+  </script>
+</body>
+</html>
