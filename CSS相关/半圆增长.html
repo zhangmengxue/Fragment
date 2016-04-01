@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>半圆增长 demo</title>
+<style type="text/css">
+.vip-inside-border{
+  position: absolute;
+  width: 480px;
+  height: 480px;
+  left: 50%;
+  margin-left: -240px;
+  border-radius:50%;
+  background: -webkit-linear-gradient(left, #e05a03, #fbd103, #fcf7ac, #fbd103, #e05a03);
+}
+.vip-change-degree::before{
+  content: '';
+  position: absolute;
+  width: 460px;
+  height: 460px;
+  top: 10px;
+  left: 50%;
+  border-radius: 50%;
+  margin-left: -230px;
+  background-color: #170510;
+  z-index: 5;
+}
+.vip-change-degree{
+  content: '';
+  position: absolute;
+  width: 480px;
+  height: 240px;
+  left: 50%;
+  margin-left: -240px;
+  border-top-right-radius: 480px;
+  border-top-left-radius: 480px;
+  background-color: #797173;
+  transform: rotate(0deg);
+  transform-origin: center bottom;
+  transition: transform 2s;
+}
+.vip-change-degree::after{
+  position: absolute;
+  display: block;
+  content: '';
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  bottom: 0;
+  left: -2px;
+  background-color: #fff;
+  box-shadow:0 0 10px rgba(255, 255, 255, .7);
+  z-index: 20;
+}
+.wrapper{
+    position: relative;
+    width: 480px;
+    height: 240px;
+    overflow: hidden;
+}
+</style>
+<script src="../js/jquery-1.11.1.js" type="text/javascript"charset="utf-8"></script>
+</head>
+<body>
+<div class="wrapper">
+    <div class='vip-inside-border'></div>
+    <div class='vip-change-degree'></div>
+</div>
+<script type="text/javascript">
+    setTimeout(function(){
+        $('.vip-change-degree').css('transform','rotate(120deg)');
+    }, 200)
+</script>
+</body>
+</html>
