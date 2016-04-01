@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset=utf-8>
+<title>circle-transform demo</title>
+</head>
+<style>
+div {
+  height: 100px;
+  width: 200px;
+  overflow: hidden;
+  position: relative;
+}
+div:before {
+  height: inherit;
+  width: inherit;
+  position: absolute;
+  content: "";
+  border-radius: 100px 100px 0 0;
+  background-color: #ccc;
+  -webkit-transform-origin: 50% 100%;
+  transform-origin: 50% 100%;
+  -webkit-transform: rotate(140deg);
+  transform: rotate(140deg);
+}
+
+</style>
+<body>
+   <div></div>
+</body>
+</html>

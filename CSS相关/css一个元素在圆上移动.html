@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset=utf-8>
+<title>一个元素在圆上移动</title>
+</head>
+<style>
+
+@keyframes rot {
+  from {
+    transform: rotate(0deg)
+               translate(-150px)
+               rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg)
+               translate(-150px)
+               rotate(-360deg);
+  }
+}
+
+.smile {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 200px;
+  left: 200px;
+  margin: -20px;
+  font-size: 100px;
+  animation: rot 3s infinite linear;
+}
+.xin{
+  position: absolute;
+  top: 220px;
+  left: 220px;
+  height: 5px;
+  width: 5px;
+  background-color: #000;
+}
+
+
+</style>
+<body>
+   <div class="smile">☺</div>
+   <div class="xin"></div>
+</body>
+</html>
