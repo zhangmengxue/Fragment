@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset=utf-8>
+<title>demo</title>
+</head>
+<style type="text/css">
+  * {
+    margin: 0;
+    padding: 0;
+  }
+ .wrapper{
+  height: 800px;
+  width: 600px;
+  position: relative;
+ }
+  #myCanvasBackGround{
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #ddd;
+    z-index: 800;
+  }
+  #myCanvas{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 900;
+  }
+  .point-wrapper{
+    position: absolute;
+    z-index: 999;
+    width: 10px;
+    height: 10px;
+    background-color: #000;
+    border-radius: 50%;
+    display: none;
+  }
+
+</style>
+<script type="text/javascript" src="./js/jquery-1.10.2.min.js"></script>
+<body>
+  <div class='wrapper'>
+    <canvas id="myCanvasBackGround" width="500px" height="400px"></canvas>
+    <div class="point-wrapper">
+      <!-- <canvas id="myPoint" width="500px" height="400px"></canvas> -->
+    </div>
+    <canvas id="myCanvas" width="500px" height="400px"></canvas>
+  </div>
+
+ <script type="text/javascript">
+  var canvas = document.getElementById('myCanvas');
+  var g = canvas.getContext('2d');
+  var canvasBack = document.getElementById('myCanvasBackGround');
+  var gBack = canvasBack.getContext('2d');
+  // var canvasPoint = document.getElementById('myPoint');
+  // var gPoint = canvasBack.getContext('2d');
+
+  var requestAnimationFrame =
+      window.requestAnimationFrame ||
+      window.webkitRequestAnimationFrame ||
+      window.mozRequestAnimationFrame ||
+      window.msRequestAnimationFrame ||
+      window.oRequestAnimationFrame ||
+      function(f) { setTimeout(f, 10); };
+
+  var start = new Date().getTime();
+
+  var timePerCircle = 2;
+  //圆的中心坐标
+  var x = 200, y = 200;
+  var r = 100;
+  gBack.beginPath();
+  gBack.arc(x, y, r, 0.75 * Math.PI, Math.PI * 2.25);
+  gBack.lineWidth=7;
+  gBack.strokeStyle = '#eee';
+  gBack.stroke();
+
+  function draw() {
+    requestAnimationFrame(draw);
+    g.clearRect(0, 0, canvas.width, canvas.height);
+    // gPoint.clearRect(0, 0, canvasPoint.width, canvasPoint.height);
+
+    var t = (new Date().getTime() - start) / 1000;
+    var percent = 240;
+    if (percent > 180) {
+      var circles = t / 2;
+      if (circles <  (percent / 360)) {
+        return;
+      }
+    } else {
+      var circles = t / 24;
+      if (circles <  0.75 / (0.75 + 1.5 * (percent / 360))) {
+        return;
+      }
+    }
+
+    //终止位置
+    var ended = (0.75 + 1.5 * (percent / 360)) * Math.PI * Math.min(circles, 1);
+
+    // point点跟随弧形
+    var rR = 5;
+    if (percent < 180) {
+      var xPoint = 200 - Math.abs(r * Math.cos(ended));
+      var yPoint = 200 + r * Math.sin(ended);
+    } else {
+      if (ended < 1.5 * Math.PI) {
+        var xPoint = 200 - Math.abs(r * Math.cos(ended));
+        var yPoint = 200 + r * Math.sin(ended);
+      } else {
+        var xPoint = 200 + Math.abs(r * Math.cos(ended));
+        var yPoint = 200 + r * Math.sin(ended);
+      }
+    }
+
+    //point
+    $('.point-wrapper').css({'left': xPoint - 5, 'top': yPoint - 5});
+    $('.point-wrapper').show();
+
+    //先画增长的圆
+    //设置渐变
+    var gradient=g.createLinearGradient(0,0,0,200);
+    gradient.addColorStop("0","red");
+    gradient.addColorStop("0.5","white");
+    gradient.addColorStop("1.0","red");
+
+    // 中心
+    g.globalCompositeOperation='destination-over';
+    g.beginPath();
+    g.arc(x, y, r, 0.75 * Math.PI, ended);
+    g.lineWidth=7;
+    g.strokeStyle = gradient;
+    g.stroke();
+
+  }
+
+  draw();
+ </script>
+</body>
+</html>

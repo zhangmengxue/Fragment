@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset=utf-8>
+<title>demo</title>
+</head>
+<style type="text/css">
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  .point-wrapper{
+    position: absolute;
+    z-index: 999;
+    width: 10px;
+    height: 10px;
+    background-color: #000;
+    border-radius: 50%;
+    display: none;
+  }
+  .vip-outside-border{
+    position: absolute;
+    width: 520px;
+    height: 520px;
+    border-radius: 50%;
+    top: 65px;
+    left: 50%;
+    margin-left: -260px;
+    border: 1px solid #7b5c70;
+  }
+  .vip-inside-border{
+    position: absolute;
+    width: 480px;
+    height: 480px;
+    border-radius: 50%;
+    top: 85px;
+    left: 50%;
+    margin-left: -240px;
+    background: -webkit-linear-gradient(left, #e05a03, #fbd103, #fcf7ac, #fbd103, #e05a03);
+  }
+  .vip-change-degree{
+    position: absolute;
+    display: block;
+    width: 240px;
+    height: 480px;
+    border-bottom-left-radius: 480px;
+    border-top-left-radius: 480px;
+    // border-radius: 50%;
+    top: 85px;
+    left: 50%;
+    margin-left: -240px;
+    background-color: #9987a2;
+    // background: -webkit-linear-gradient(top, #9987a2, transparent);
+    z-index: 100;
+    transform: rotate(52deg);
+    transform-origin: right center;
+    transition: transform 2s;
+  }
+  .vip-change-degree-right{
+    position: absolute;
+    width: 240px;
+    height: 480px;
+    left: 50%;
+    top: 85px;
+    border-bottom-right-radius: 480px;
+    border-top-right-radius: 480px;
+    // border-radius: 50%;
+    background-color: #9987a2;
+    // background: -webkit-linear-gradient(top, #9987a2, transparent);
+    z-index: 98;
+    transform: rotate(0deg);
+    transform-origin: left center;
+    transition: transform 2s;
+  }
+  .vip-inside-round{
+    z-index: 101;
+    position: absolute;
+    top: 85px;
+    left: 50%;
+    margin-left: -240px;
+    width: 480px;
+    height: 480px;
+    border-radius: 50%;
+    background-color: transparent;
+    transform: rotate(0deg);
+    transform-origin: center center;
+    transition: transform 2s;
+  }
+  .vip-inside-round::after{
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    top: 370px;
+    left: 42px;
+    border-radius: 50%;
+    box-shadow:0 0 200px rgba(255, 255, 255, .7);
+    background-color: #fff;
+  }
+  .vip-change-degree::after{
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 460px;
+    height: 460px;
+    border-radius: 50%;
+    background-color: #2a1e51;
+    z-index: 99;
+  }
+
+</style>
+<script type="text/javascript" src="./js/jquery-1.10.2.min.js"></script>
+<body>
+  <div class='wrapper'>
+    <div class='vip-outside-border'></div>
+    <div class='vip-inside-round'></div>
+    <div class='vip-inside-border'></div>
+    <div class='vip-change-degree'></div>
+    <div class="vip-change-degree-right"></div>
+  </div>
+
+ <script type="text/javascript">
+  var current = 600;
+    var totle = 1000;
+    var percent = (current / totle * 1 / 256 == 0 ? 52 : current / totle * 256) + 52;
+    console.log('percent', percent);
+    if (percent < 180 || percent === 180) {
+      setTimeout(function() {
+        $('.vip-change-degree').css('transform', 'rotate(' + percent + 'deg)');
+        $('.vip-inside-round').css('transform', 'rotate(' + (percent - 52) + 'deg)');
+      }, 200);
+    }
+    if (percent > 180) {
+      setTimeout(function() {
+        $('.vip-change-degree').css('transform', 'rotate(' + 180 + 'deg)');
+        $('.vip-inside-round').css('transform', 'rotate(' + (percent - 52) + 'deg)');
+      }, 200);
+      setTimeout(function() {
+        $('.vip-change-degree').css('backgroundColor', 'transparent');
+      }, 1000);
+      setTimeout(function() {
+        $('.vip-change-degree-right').css('transform', 'rotate(' + (percent - 180) + 'deg)');
+      }, 1200);
+      setTimeout(function() {
+        $('.vip-change-degree-right').css('background', '-webkit-linear-gradient(top, #9987a2, transparent)');
+      }, 1800);
+    }
+ </script>
+</body>
+</html>
