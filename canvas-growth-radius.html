@@ -15,126 +15,204 @@
   position: relative;
  }
   #myCanvasBackGround{
-    position: absolute;
-    top: 0;
-    left: 0;
-    color: #ddd;
-    z-index: 800;
-  }
-  #myCanvas{
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 900;
-  }
-  .point-wrapper{
-    position: absolute;
-    z-index: 999;
-    width: 10px;
-    height: 10px;
-    background-color: #000;
-    border-radius: 50%;
-    display: none;
-  }
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #ddd;
+  z-index: 8;
+}
+#myCanvas{
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9;
+}
+.point-wrapper{
+  position: absolute;
+  z-index: 10;
+  width: 10px;
+  height: 10px;
+  background-color: #fff;
+  border-radius: 50%;
+  display: none;
+  border: 8px solid #d1ba70;
+}
+.point-gold-wrapper{
+  position: absolute;
+  z-index: 10;
+  width: 10px;
+  height: 10px;
+  background-color: #d1ba6f;
+  border-radius: 50%;
+  display: none;
+}
+.point-gold-wrapper::after,.point-gold-wrapper::before{
+  position: absolute;
+  width: 100px;
+  font-size: 22px;
+  right: -130px;
+  text-align: left;
+  top: 0;
+  color: #fff;
+}
+.drop-left::after,.drop-left::before{
+  position: absolute;
+  width: 100px;
+  font-size: 22px;
+  left: -130px;
+  text-align: right;
+  top: 0;
+  color: #fff;
+}
 
 </style>
 <script type="text/javascript" src="./js/jquery-1.10.2.min.js"></script>
 <body>
   <div class='wrapper'>
-    <canvas id="myCanvasBackGround" width="500px" height="400px"></canvas>
-    <div class="point-wrapper">
-      <!-- <canvas id="myPoint" width="500px" height="400px"></canvas> -->
-    </div>
-    <canvas id="myCanvas" width="500px" height="400px"></canvas>
+    <canvas id="myCanvasBackGround"></canvas>
+    <div class="point-wrapper"></div>
+    <div class="point-gold-wrapper"></div>
+    <canvas id="myCanvas"></canvas>
   </div>
 
  <script type="text/javascript">
+  /*
+* canvas弧形增长函数
+* (x,y)圆心坐标
+* r 半径
+* percent 增长的百分比
+*/
+function drawGrowthCircle(percent) {
   var canvas = document.getElementById('myCanvas');
   var g = canvas.getContext('2d');
-  var canvasBack = document.getElementById('myCanvasBackGround');
-  var gBack = canvasBack.getContext('2d');
-  // var canvasPoint = document.getElementById('myPoint');
-  // var gPoint = canvasBack.getContext('2d');
 
-  var requestAnimationFrame =
-      window.requestAnimationFrame ||
-      window.webkitRequestAnimationFrame ||
-      window.mozRequestAnimationFrame ||
-      window.msRequestAnimationFrame ||
-      window.oRequestAnimationFrame ||
-      function(f) { setTimeout(f, 10); };
+  // 使画布的宽度和高度始终与终端屏幕宽度相等（canvas不支持rem）
+  var clientWidth = document.documentElement.clientWidth;
+  var canvasWidth = Math.floor(clientWidth);
+  canvas.setAttribute('width', canvasWidth + 'px');
+  canvas.setAttribute('height', canvasWidth + 'px');
 
+  var x = roundNum(canvasWidth / 2);
+  var y = roundNum(canvasWidth / 2 + clientWidth * 16 / 375);
+  var r = roundNum(clientWidth * 23 / 75);
+  var linewidth = roundNum(clientWidth * 4 / 375);
   var start = new Date().getTime();
+  drawBackGround(x, y, r, canvasWidth, linewidth);
 
-  var timePerCircle = 2;
-  //圆的中心坐标
-  var x = 200, y = 200;
-  var r = 100;
-  gBack.beginPath();
-  gBack.arc(x, y, r, 0.75 * Math.PI, Math.PI * 2.25);
-  gBack.lineWidth=7;
-  gBack.strokeStyle = '#eee';
-  gBack.stroke();
+  function roundNum(num) {
+    return (0.5 + num) << 0;
+  }
 
   function draw() {
-    requestAnimationFrame(draw);
-    g.clearRect(0, 0, canvas.width, canvas.height);
-    // gPoint.clearRect(0, 0, canvasPoint.width, canvasPoint.height);
 
+    g.clearRect(0, 0, canvas.width, canvas.height);
     var t = (new Date().getTime() - start) / 1000;
-    var percent = 240;
-    if (percent > 180) {
-      var circles = t / 2;
-      if (circles <  (percent / 360)) {
-        return;
-      }
-    } else {
-      var circles = t / 24;
-      if (circles <  0.75 / (0.75 + 1.5 * (percent / 360))) {
-        return;
-      }
-    }
+    var circles = t / 2;
 
     //终止位置
     var ended = (0.75 + 1.5 * (percent / 360)) * Math.PI * Math.min(circles, 1);
 
-    // point点跟随弧形
-    var rR = 5;
-    if (percent < 180) {
-      var xPoint = 200 - Math.abs(r * Math.cos(ended));
-      var yPoint = 200 + r * Math.sin(ended);
-    } else {
-      if (ended < 1.5 * Math.PI) {
-        var xPoint = 200 - Math.abs(r * Math.cos(ended));
-        var yPoint = 200 + r * Math.sin(ended);
-      } else {
-        var xPoint = 200 + Math.abs(r * Math.cos(ended));
-        var yPoint = 200 + r * Math.sin(ended);
-      }
+    // 超出弧度的范围return掉
+    if (ended < 0.75 * Math.PI || ended > 2.25 * Math.PI) {
+      window.requestAnimationFrame(draw);
+      return;
     }
 
-    //point
-    $('.point-wrapper').css({'left': xPoint - 5, 'top': yPoint - 5});
+    // 到达终点时 画弧 && cancelAnimationFrame
+    if (circles > 1 || circles === 1) {
+      drawPath(x, y, r, ended);
+      window.cancelAnimationFrame(draw);
+      return;
+    }
+
+    if (ended < 1.5 * Math.PI) {
+      var xPoint = x - Math.abs(r * Math.cos(ended));
+      var yPoint = y + r * Math.sin(ended);
+    } else {
+      var xPoint = x + Math.abs(r * Math.cos(ended));
+      var yPoint = y + r * Math.sin(ended);
+    }
+
+    drawPath(x, y, r, ended, linewidth);
+    // point
+    var pointOff = $('.point-wrapper').width() / 2 + 4;
+    $('.point-wrapper').css({'left': xPoint - pointOff, 'top': yPoint - pointOff});
     $('.point-wrapper').show();
 
-    //先画增长的圆
-    //设置渐变
-    var gradient=g.createLinearGradient(0,0,0,200);
-    gradient.addColorStop("0","red");
-    gradient.addColorStop("0.5","white");
-    gradient.addColorStop("1.0","red");
+    window.requestAnimationFrame(draw);
+  }
+
+  function drawPath(x, y, r, ended, linewidth) {
+    // 设置渐变
+    var gradient = g.createLinearGradient(0, 0, 0, r);
+    gradient.addColorStop('0', '#d1ba70');
+    gradient.addColorStop('0.5', 'white');
+    gradient.addColorStop('1.0', '#d1ba70');
 
     // 中心
-    g.globalCompositeOperation='destination-over';
     g.beginPath();
     g.arc(x, y, r, 0.75 * Math.PI, ended);
-    g.lineWidth=7;
+    g.lineWidth = linewidth;
     g.strokeStyle = gradient;
     g.stroke();
-
+    g.closePath();
   }
 
   draw();
+}
+
+/*
+* canvas弧形轨道
+* (x,y)圆心坐标
+* r 半径
+* 内圆轨道和外层细圆以及黄金会员分隔值点
+*/
+function drawBackGround(x, y, r, canvasWidth, linewidth) {
+
+  var canvasBack = document.getElementById('myCanvasBackGround');
+  var gBack = canvasBack.getContext('2d');
+
+  canvasBack.setAttribute('width', canvasWidth + 'px');
+  canvasBack.setAttribute('height', canvasWidth + 'px');
+
+  gBack.beginPath();
+  gBack.arc(x, y, r, 0.75 * Math.PI, Math.PI * 2.25);
+  gBack.lineWidth = linewidth;
+  gBack.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+  gBack.stroke();
+  gBack.closePath();
+
+  gBack.beginPath();
+  gBack.arc(x, y, r + 13, 0.75 * Math.PI, Math.PI * 2.25);
+  // gBack.lineWidth = canvasWidth / 375;
+  gBack.lineWidth = 1.3;
+  gBack.strokeStyle = 'rgba(209, 186, 111, 0.5)';
+  gBack.stroke();
+  gBack.closePath();
+
+  var goldPer = 700 / 1000;
+  var finalPos = (0.75 + 1.5 * goldPer) * Math.PI;
+  var gxPoint = '';
+  var gyPoint = '';
+
+  // 黄金分值点(第三象限)
+  if (finalPos > 1.5 * Math.PI) {
+    gxPoint = x + Math.abs((r + 13) * Math.cos(finalPos));
+    gyPoint = y + (r + 13) * Math.sin(finalPos);
+  // 第二象限
+  } else {
+    gxPoint = x - Math.abs((r + 13) * Math.cos(finalPos));
+    gyPoint = y + (r + 13) * Math.sin(finalPos);
+    $('.point-gold-wrapper').addClass('drop-left');
+  }
+
+  // 黄金分值点div
+  var goldOff = $('.point-gold-wrapper').width() / 2;
+  $('.point-gold-wrapper').css({'left': gxPoint - goldOff, 'top': gyPoint - goldOff});
+  $('.point-gold-wrapper').show();
+}
+
+drawGrowthCircle(240);
  </script>
 </body>
 </html>
